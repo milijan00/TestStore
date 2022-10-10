@@ -65,7 +65,7 @@ namespace TestStore.Web.Extensions
 
         public static void AddValidators(this IServiceCollection services)
         {
-            services.AddTransient<CreateUsecaseValidator>() ;
+            services.AddTransient<UsecasesBaseValidator>() ;
             services.AddTransient<UpdateUsecaseValidator>() ;
 
             services.AddTransient<CreateNavLinkValidator>() ;

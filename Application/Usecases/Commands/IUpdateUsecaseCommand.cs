@@ -7,7 +7,7 @@ using TestStore.Application.Dto;
 
 namespace TestStore.Application.Usecases.Commands
 {
-    public interface IUpdateUsecaseCommand : ICommand<UpdateUsecaseDto>
+    public interface IUpdateUsecaseCommand : ICommand<UsecaseDto>
     {
     }
 }

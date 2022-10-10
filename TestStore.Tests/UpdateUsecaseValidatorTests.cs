@@ -11,23 +11,22 @@ using TestStore.Implementation.Validators;
 namespace TestStore.Tests
 {
     [TestClass]
-    public class UpdateCategoryValidatorTests
+    public class UpdateUsecaseValidatorTests
     {
-
         private TestStoreDbContext _context;
-        private UpdateCategoryValidator _validator;
-        public UpdateCategoryValidatorTests()
+        private UpdateUsecaseValidator _validator;
+        public UpdateUsecaseValidatorTests()
         {
             this._context = new TestStoreDbContext();
-            this._validator = new UpdateCategoryValidator(this._context);
+            this._validator = new UpdateUsecaseValidator(this._context);
         }
         [TestMethod]
         public void ValidateDto_ValidationSuccessfull()
         {
-            var dto = new CategoryDto
+            var dto = new UsecaseDto
             {
                 Id = 1,
-                Name = "Aca"
+                Name = "Efasdasd"
             };
 
             var result = this._validator.Validate(dto);
@@ -35,11 +34,11 @@ namespace TestStore.Tests
             Assert.IsTrue(result.IsValid);
         }
         [TestMethod]
-        public void ValidateDto_ValidatonUnsuccessfullWhenNameNotPassed()
+        public void ValidateDto_ValidationSuccessfullWhenIdNotPassed()
         {
-            var dto = new CategoryDto
+            var dto = new UsecaseDto
             {
-                Id = 1
+                Name = "Efasdasd"
             };
 
             var result = this._validator.Validate(dto);
