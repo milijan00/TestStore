@@ -1,0 +1,128 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+    ViewData["Title"] = "Registration page";
+}
+
+
+<section class="container mx-auto py-3 vh100 row align-items-center justify-content-center flex-column">
+    <article class="col-12">
+        <h1>Create a new account</h1>
+    </article>
+    <article class="col-12">
+        <form method="POST" action="#" id="registrationForm">
+            <section class="row mx-0">
+                <article class="col-12 mb-3">
+                    <input type="text" placeholder="First name" id="firstname" class="form-control"/>
+                    <div id="firstnameError" class="alert alert-danger my-2 d-none">
+                        <p></p>
+                    </div>
+                </article>
+                <article class="col-12 mb-3">
+                    <input type="text" placeholder="Last name" class="form-control" id="lastname"/>
+                    <div id="lastnameError" class="alert alert-danger my-2 d-none">
+                        <p></p>
+                    </div>
+                </article>
+                <article class="col-12 mb-3">
+                    <input type="email" placeholder="Email" class="form-control" id="email"/>
+                    <div id="emailError" class="alert alert-danger my-2 d-none">
+                        <p></p>
+                    </div>
+                </article>
+                <article class="col-12 mb-3">
+                    <input type="text" placeholder="Username" class="form-control" id="username"/>
+                    <div id="usernameError" class="alert alert-danger my-2 d-none">
+                        <p></p>
+                    </div>
+                </article>
+                <article class="col-12 mb-3">
+                    <input type="password" placeholder="Password" class="form-control" id="password"/>
+                    <div id="passwordError" class="alert alert-danger my-2 d-none">
+                        <p></p>
+                    </div>
+                </article>
+                <article class="col-12 mb-3">
+                    <input type="password" placeholder="Password again" class="form-control" id="passwordAgain"/>
+                    <div id="passwordAgainError" class="alert alert-danger my-2 d-none">
+                        <p></p>
+                    </div>
+                </article>
+                <article class="col-12 mb-3 text-end">
+                    <input type="submit" value="Register" class="btn btn-primary"/>
+                </article>
+            </section>
+        </form>
+    </article>
+<div class="toast" role="alert" aria-live="assertive" aria-atomic="true">
+  <div class="toast-header">
+    <strong class="mr-auto" id="toast-title">Bootstrap</strong>
+  </div>
+  <div class="toast-body">
+    Hello, world! This is a toast message.
+  </div>
+</div>
+</section>
+
+<script type="module">
+    import validation, {Validator} from "/js/validation.js";
+    var validator = new Validator();
+    validator.builder.
+    addFirstName(firstname)
+    .addLastName(lastname)
+    .addEmail(email)
+    .addUsername(username)
+    .addPassword(password);
+    //validator.builder.addCategory(null);
+    validator.builder.addPasswordAgain(passwordAgain);
+    $("#registrationForm").submit(function(e){
+        e.preventDefault();
+        validation.hideErrorBlocks(["#firstnameError", "#lastnameError", "#usernameError", "#emailError", "#passwordError", "#passwordAgainError"]);
+        var result = validator.validateForm();
+        if(result.IsValid){
+            $.ajax({
+                url : "http://localhost:5257/auth/create",
+                method : "POST",
+                data : {
+                    firstName : firstname.value,
+                    lastName : lastname.value,
+                    email : email.value,
+                    password : password.value,
+                    username : username.value
+                },
+                success(res, status, xhr){
+                    if(xhr.status == 201){
+                       validator.clearForm(); 
+                       $(".toast").toast("show");
+                       $(".toast-body").text("You have been registered successfully!");
+                       $("#toast-title").text("Registration");
+                    }
+                }
+            })
+        }else {
+            validation.displayErrorMessages(result.errors);
+            //for(var e in result.errors){
+            //    let blockId ="#"+ e + "Error";
+            //    validation.displayErrorMessage(blockId);
+            //    validation.setTextValueForErrorBlock(blockId, result.errors[e]);
+            //}
+            //if(result.errors.firstname){
+            //    validation.displayErrorMessage("#firstnameError");
+            //    validation.setTextValueForErrorBlock("#firstnameError", result.errors.firstname);
+            //}
+            //if(result.errors.lastname){
+            //    validation.displayErrorMessage("#lastnameError");
+            //    validation.setTextValueForErrorBlock("#lastnameError", result.errors.lastname);
+            //}
+            //if(result.errors.username){
+            //    validation.displayErrorMessage("#lastnameError");
+            //    validation.setTextValueForErrorBlock("#lastnameError", result.errors.lastname);
+            //}
+            //if(result.errors.password){
+            //    validation.displayErrorMessage("#passwordError");
+            //    validation.setTextValueForErrorBlock("#passwordError", result.errors.password);
+            //}
+        }
+    })
+</script>

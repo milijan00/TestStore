@@ -1,0 +1,21 @@
+﻿@using TestStore.Application.Dto
+@model List<NavLinkDto>
+@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+}
+                <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">TestStore.Web</a>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
+                        aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
+                    <ul class="navbar-nav flex-grow-1">
+                        @foreach(var l in Model){
+                            <li class="nav-item">
+                                <a class="nav-link text-dark" asp-area="" asp-controller="@l.Controller" asp-action="@l.Action">@l.Name</a>
+                            </li>
+                        }
+                    </ul>
+                </div>

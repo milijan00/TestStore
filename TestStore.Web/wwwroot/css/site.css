@@ -1,0 +1,30 @@
+html {
+  font-size: 14px;
+}
+
+@media (min-width: 768px) {
+  html {
+    font-size: 16px;
+  }
+}
+
+html {
+  position: relative;
+  min-height: 100%;
+}
+
+body {
+  margin-bottom: 60px;
+}
+
+.vh100{
+    min-height: 100vh;
+}
+
+.vh80{
+    min-height : 80vh;
+}
+
+.product{
+    box-shadow: 3px 5px 20px rgba(0,0,0,0.4);
+}

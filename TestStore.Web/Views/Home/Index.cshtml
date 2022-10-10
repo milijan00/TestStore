@@ -1,0 +1,217 @@
+﻿@using TestStore.Application.Dto
+@model ProductsCategoriesBrandsDto
+@{
+    ViewData["Title"] = "Home Page";
+}
+
+<div class="text-center mb-3">
+    <h1 class="display-4">Products</h1>
+</div>
+
+<section class="container mx-auto ">
+    <section class="row justify-content-between">
+        <section class="col-12 col-md-3">
+            <form method="POST" action="#" name="filterProductsForm" id="filterProductsForm">
+                <section class="row ">
+                   <article>
+                       <h3>Search for products</h3>
+                   </article>
+                   <article class="col-12 mb-3">
+                        <input type="text" placeholder="Search" class="form-control" id="search"/>
+                   </article> 
+                   <article>
+                       <h3>Categories</h3>
+                   </article>
+                   <section class="col-12 mb-3">
+                    @foreach(var c in Model.Categories){
+                         <article>
+                             <input type="checkbox" name="category" value="@c.Id"  class="category"/> @c.Name
+                         </article>
+                     }
+                   </section>
+                   <article>
+                       <h3>Brands</h3>
+                   </article>
+                   <section class="col-12 mb-3">
+                    @foreach(var b in Model.Brands){
+                         <article>
+                             <input type="checkbox" name="brands" value="@b.Id" class="brand"/> @b.Name
+                         </article>
+                     }
+                   </section>
+                   <article>
+                       <h3>Sort products</h3>
+                   </article>
+                   <article class="col-12 mb-3">
+                       <select class="form-control" id="sortValue">
+                            <option value="Name-ASC">Name ascending</option>
+                            <option value="Price-ASC">Price ascending</option>
+                            <option value="Name-DESC">Name descending</option>
+                            <option value="Price-DESC">Price descending</option>
+                       </select>
+                   </article>
+                   <article class="col-12 mb-3 text-end">
+                       <input type="submit" class="btn btn-primary" value="Search"/>
+                   </article> 
+                </section>
+            </form>
+        </section>
+        <section class="col-12 col-md-8 row justify-content-between" id="product-wrapper">
+        @foreach(var p in Model.Products){
+            <article class="col-12 col-md-4 product py-2">
+                <figure class="w-100">
+                    <img src="/images/@p.ImageName" alt="product" class="img-fluid"/>
+                </figure>
+                <article>
+                    <p>@p.Brand @p.Name</p>
+                </article>
+                <article>
+                    <p>@p.Description</p>
+                </article>
+                <article>
+                    <p>@p.Price RSD</p>
+                </article>
+                <article>
+                    <a href="#" class="btn btn-primary add-to-cart" >Add to cart</a>
+                </article>
+            </article>
+        }
+        </section>
+    </section>
+</section>
+
+
+@*<article>
+    <a href="#" id="one-link" class="btn btn-primary">ASdhas</a>
+</article>*@
+
+@*<div class="toast" role="alert" aria-live="assertive" aria-atomic="true">
+  <div class="toast-header">
+    <img src="..." class="rounded mr-2" alt="...">
+    <strong class="mr-auto">Bootstrap</strong>
+    <small class="text-muted">11 mins ago</small>
+    <button type="button" class="ml-2 mb-1 close" data-dismiss="toast" aria-label="Close">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="toast-body">
+    Hello, world! This is a toast message.
+  </div>
+</div>
+<div>
+    ashdiushad
+</div>*@
+<script>
+
+    function applyAddToCartButtonsFunctionality(){
+        $(".add-to-cart").click(function(e){
+            e.preventDefault();
+            alert("Product added to the cart!");
+            /**
+             * send a request to the server in order to add product to a cart.
+             * 
+             * product {
+             *  id : 1,
+             * 
+             * }
+             */
+        });
+    }
+
+    applyAddToCartButtonsFunctionality();
+   //var  categories = [];
+    //$(".category").click(function(e){
+    //    if(this.checked){
+    //        let i = categories.indexOf(this.value);
+    //        categories.splice(i, 1);
+    //        console.log(categories);
+    //    }else {
+    //        categories.push(this.value);
+    //        console.log(this.value);
+    //    }
+    //});
+    function getQueryFromArray(name, values){
+        var string = "";
+        for(let v of values){
+            string += `&${name}=${v}`;
+        }
+        return string;
+    }
+
+    function getProductsHTML(products){
+        if(products.length == 0){
+            return `<p>There are no products that match the given filter.</p>`;
+        }
+        var html  = "";
+        for(var p of products){
+            html += `
+            <article class="col-12 col-md-4 product py-2">
+                <figure class="w-100">
+                    <img src="/images/${p.imageName}" alt="product" class="img-fluid"/>
+                </figure>
+                <article>
+                    <p>${p.brand} ${p.name}</p>
+                </article>
+                <article>
+                    <p>${p.description}</p>
+                </article>
+                <article>
+                    <p>${p.price} RSD</p>
+                </article>
+                <article>
+                    <a href="#" class="btn btn-primary add-to-cart" >Add to cart</a>
+                </article>
+            </article>
+            `;
+        }
+        return html;
+    }
+
+    $("#filterProductsForm").submit(function(e){
+        e.preventDefault();
+        var categories = Array.from(document.getElementsByClassName("category")).filter(el => el.checked).map(el => el.value);
+        var brands = Array.from(document.getElementsByClassName("brand")).filter(el => el.checked).map(el => el.value);
+        var form = {
+            search :  $("#search").val(),
+            categories :categories,
+            brands : brands,
+            sortValue : sortValue.value
+        };
+        // now query string needs to be generated
+        // endpoint: http://localhost:5257/products/get/ + query string
+        let query = "?";
+
+        if(form.search) {
+           query += "keyword=" + form.search;
+        }
+
+        if(form.categories.length > 0){
+            query += getQueryFromArray("categories", form.categories);
+        }
+
+        if(form.brands.length > 0){
+            query += getQueryFromArray("brands", form.brands);
+        }
+
+        query += `&sortValue=${form.sortValue}`;
+
+        const url = "http://localhost:5257/products/get/" + query;
+        $.ajax({
+            "url" : url,
+            "method" : "GET",
+            success : function(result){
+                $("#product-wrapper").html(getProductsHTML(result));
+                applyAddToCartButtonsFunctionality();
+            }, 
+            error(error, status, xhr){
+                console.error(error);
+            }
+        })
+
+    });
+    //$("#one-link").click(function(e){
+    //   e.preventDefault(); 
+    //   $(".toast").toast("show");
+    //   $(".toast-body").text("User did something great!");
+    //});
+</script>

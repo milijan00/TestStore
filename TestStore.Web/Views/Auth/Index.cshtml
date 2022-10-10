@@ -1,0 +1,70 @@
+﻿@page
+
+@using TestStore.Web.Views.Shared;
+@*<ErrorBoxComponent Id="usernameError" Message="Nesto"/>*@
+
+<section class="container mx-auto vh100 d-flex align-items-center flex-column  ">
+    <article >
+        <h1 >Login</h1>
+    </article>
+    <article>
+        <form method="POST"  action="#"  name="loginForm">
+            <section class="row">
+                <article class="col-12  mb-3">
+                    <input type="text" placeholder="Username" id="username" class="form-control"/>
+                    <div id="usernameError" class="alert alert-danger my-2 d-none">
+                        <p></p>
+                    </div>
+                </article>
+                <article class="col-12  mb-3">
+                    <input type="password" placeholder="Password" id="password" class="form-control"/>
+                    <div id="passwordError" class="alert alert-danger my-2 d-none">
+                        <p></p>
+                    </div>
+                </article>
+                <article class="col-12  mb-3 text-end">
+                    <input type="submit" value="Login" class="btn btn-primary"/>
+                </article>
+            </section>
+        </form>
+    </article>
+    <article>
+        <p>Don't have an account? Create one <a asp-action="Register" asp-controller="Auth" class="btn btn-link">here</a></p>
+    </article>
+</section>
+
+<script type="module">
+    import validation , {Validator} from "/js/validation.js";
+    const validator = new Validator();
+    validator.builder
+                    .addUsername(username)
+                    .addPassword(password);
+     document.loginForm.addEventListener("submit", function(e){
+         e.preventDefault();
+         validation.hideErrorBlocks(["#usernameError", "#passwordError"]);
+         var result = validator.validateForm();
+         if(result.isValid) {
+         $.ajax({
+            url : "http://localhost:5257/auth/login",
+            method : "POST",
+            data : {
+                username : username.value,
+                password : password.value
+            },
+            success(res){
+                localStorage.setItem("access", res.access);
+                localStorage.setItem("refresh", res.refresh);
+                validator.clearForm();
+                location.href="/";
+            },
+            error(xhr, status, err){
+                if(xhr.status == 401){
+                    alert("The user doesn't exist.");
+                }
+            }
+         });
+         }else{
+             validation.displayErrorMessages(result.errors);
+         }
+        });
+</script>

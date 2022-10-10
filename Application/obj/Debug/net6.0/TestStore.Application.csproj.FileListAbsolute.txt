@@ -1,0 +1,15 @@
+C:\Users\Aca\Desktop\aleksandar\programiranje\web\dot_net_6\TestStore\Application\bin\Debug\net6.0\TestStore.Application.deps.json
+C:\Users\Aca\Desktop\aleksandar\programiranje\web\dot_net_6\TestStore\Application\bin\Debug\net6.0\TestStore.Application.dll
+C:\Users\Aca\Desktop\aleksandar\programiranje\web\dot_net_6\TestStore\Application\bin\Debug\net6.0\TestStore.Application.pdb
+C:\Users\Aca\Desktop\aleksandar\programiranje\web\dot_net_6\TestStore\Application\bin\Debug\net6.0\TestStore.Domain.dll
+C:\Users\Aca\Desktop\aleksandar\programiranje\web\dot_net_6\TestStore\Application\bin\Debug\net6.0\TestStore.Domain.pdb
+C:\Users\Aca\Desktop\aleksandar\programiranje\web\dot_net_6\TestStore\Application\obj\Debug\net6.0\TestStore.Application.csproj.AssemblyReference.cache
+C:\Users\Aca\Desktop\aleksandar\programiranje\web\dot_net_6\TestStore\Application\obj\Debug\net6.0\TestStore.Application.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\Aca\Desktop\aleksandar\programiranje\web\dot_net_6\TestStore\Application\obj\Debug\net6.0\TestStore.Application.AssemblyInfoInputs.cache
+C:\Users\Aca\Desktop\aleksandar\programiranje\web\dot_net_6\TestStore\Application\obj\Debug\net6.0\TestStore.Application.AssemblyInfo.cs
+C:\Users\Aca\Desktop\aleksandar\programiranje\web\dot_net_6\TestStore\Application\obj\Debug\net6.0\TestStore.Application.csproj.CoreCompileInputs.cache
+C:\Users\Aca\Desktop\aleksandar\programiranje\web\dot_net_6\TestStore\Application\obj\Debug\net6.0\TestStore.Application.csproj.CopyComplete
+C:\Users\Aca\Desktop\aleksandar\programiranje\web\dot_net_6\TestStore\Application\obj\Debug\net6.0\TestStore.Application.dll
+C:\Users\Aca\Desktop\aleksandar\programiranje\web\dot_net_6\TestStore\Application\obj\Debug\net6.0\refint\TestStore.Application.dll
+C:\Users\Aca\Desktop\aleksandar\programiranje\web\dot_net_6\TestStore\Application\obj\Debug\net6.0\TestStore.Application.pdb
+C:\Users\Aca\Desktop\aleksandar\programiranje\web\dot_net_6\TestStore\Application\obj\Debug\net6.0\ref\TestStore.Application.dll
