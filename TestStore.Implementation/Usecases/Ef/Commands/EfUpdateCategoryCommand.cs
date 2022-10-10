@@ -33,7 +33,7 @@ namespace TestStore.Implementation.Usecases.Ef.Commands
                 throw new UnprocessableEntityException(result.Errors);
             }
 
-            var category = this.Context.Categories.Find(data.Id);
+            var category = this.Context.Categories.Find(data.Id.Value);
             category.Name = data.Name;
             this.Context.SaveChanges();
         }

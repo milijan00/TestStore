@@ -11,10 +11,8 @@ namespace TestStore.Implementation.Validators
 {
     public class BrandBaseValidator : AbstractValidator<BrandDto>
     {
-        protected TestStoreDbContext Context { get; set; }
         public BrandBaseValidator(TestStoreDbContext context)
         {
-            this.Context = context; 
 
             RuleFor(x => x.Name)
                 .Cascade(CascadeMode.Stop)

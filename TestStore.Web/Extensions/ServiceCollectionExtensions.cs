@@ -67,14 +67,19 @@ namespace TestStore.Web.Extensions
         {
             services.AddTransient<CreateUsecaseValidator>() ;
             services.AddTransient<UpdateUsecaseValidator>() ;
-            services.AddTransient<CreateUserValidator>() ;
+
             services.AddTransient<CreateNavLinkValidator>() ;
             services.AddTransient<UpdateNavLinkValidator>() ;
+
             services.AddTransient<UpdateUserValidator>() ;
+            services.AddTransient<CreateUserValidator>() ;
+
             services.AddTransient<CreateProductValidator>() ;
             services.AddTransient<UpdateProductValidator>() ;
-            services.AddTransient<CreateCategoryValidator>() ;
+
+            services.AddTransient<CategoryBaseValidator>() ;
             services.AddTransient<UpdateCategoryValidator>() ;
+
             services.AddTransient<BrandBaseValidator>() ;
             services.AddTransient<UpdateBrandValidator>() ;
         }

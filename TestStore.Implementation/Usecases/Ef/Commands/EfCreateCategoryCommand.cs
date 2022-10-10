@@ -14,8 +14,8 @@ namespace TestStore.Implementation.Usecases.Ef.Commands
 {
     public class EfCreateCategoryCommand : EfBase, ICreateCategoryCommand
     {
-        private CreateCategoryValidator _validator;
-        public EfCreateCategoryCommand(TestStoreDbContext context, CreateCategoryValidator validator) : base(context)
+        private CategoryBaseValidator _validator;
+        public EfCreateCategoryCommand(TestStoreDbContext context,  CategoryBaseValidator validator) : base(context)
         {
             this._validator = validator;
         }

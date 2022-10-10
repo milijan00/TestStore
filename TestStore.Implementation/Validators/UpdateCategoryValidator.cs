@@ -9,19 +9,14 @@ using TestStore.Implementation.DataAccess;
 
 namespace TestStore.Implementation.Validators
 {
-    public class UpdateCategoryValidator : AbstractValidator<CategoryDto>
+    public class UpdateCategoryValidator : CategoryBaseValidator 
     {
-        public UpdateCategoryValidator(TestStoreDbContext context)
+        public UpdateCategoryValidator(TestStoreDbContext context) : base(context)
         {
             RuleFor(x => x.Id)
                 .Cascade(CascadeMode.Stop)
-                .Must(id => id > 0).WithMessage("Id has to be greater than 0")
+                .NotNull().WithMessage("Category id must not be null")
                 .Must(id => context.Categories.Any(x => x.Id == id)).WithMessage("There is no such category");
-
-            RuleFor(x => x.Name)
-                .Cascade(CascadeMode.Stop)
-                .NotEmpty().WithMessage("Category's name must not be empty.")
-                .Must(name => !context.Categories.Any(c => c.Name == name)).WithMessage("There is already a category with given name.");
         }
     }
 }
