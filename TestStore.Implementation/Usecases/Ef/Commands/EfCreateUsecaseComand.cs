@@ -14,8 +14,8 @@ namespace TestStore.Implementation.Usecases.Ef.Commands
 {
     public class EfCreateUsecaseComand : EfBase,  ICreateUsecaseCommand
     {
-        private CreateUsecaseValidator _validator;
-        public EfCreateUsecaseComand(TestStoreDbContext context, CreateUsecaseValidator validator) : base(context)
+        private UsecasesBaseValidator _validator;
+        public EfCreateUsecaseComand(TestStoreDbContext context,  UsecasesBaseValidator validator) : base(context)
         {
             _validator = validator;
         }
@@ -26,7 +26,7 @@ namespace TestStore.Implementation.Usecases.Ef.Commands
 
         public bool AdminOnly => true;
 
-        public void Execute(CreateUsecaseDto data)
+        public void Execute(UsecaseDto data)
         {
             var result = this._validator.Validate(data);
             if (!result.IsValid)

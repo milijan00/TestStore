@@ -25,7 +25,7 @@ namespace TestStore.Implementation.Usecases.Ef.Commands
 
         public bool AdminOnly => true;
 
-        public void Execute(UpdateUsecaseDto data)
+        public void Execute(UsecaseDto data)
         {
             var result = this._validator.Validate(data);
             if (!result.IsValid)

@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using TestStore.Application.Dto;
 using TestStore.Application.Usecases.Commands;
 using TestStore.Implementation.DataAccess;
+using TestStore.Implementation.Exceptions;
 using TestStore.Implementation.Validators;
 
 namespace TestStore.Implementation.Usecases.Ef.Commands

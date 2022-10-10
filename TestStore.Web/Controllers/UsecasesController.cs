@@ -47,7 +47,7 @@ namespace TestStore.Web.Controllers
             }
         }
         [HttpPost]
-        public IActionResult Create([FromForm] CreateUsecaseDto dto, [FromServices] ICreateUsecaseCommand command)
+        public IActionResult Create([FromForm] UsecaseDto dto, [FromServices] ICreateUsecaseCommand command)
         {
             try
             {
@@ -64,7 +64,7 @@ namespace TestStore.Web.Controllers
         }
 
         [HttpPut]
-        public IActionResult Update([FromForm] UpdateUsecaseDto dto, [FromServices] IUpdateUsecaseCommand command)
+        public IActionResult Update([FromForm] UsecaseDto dto, [FromServices] IUpdateUsecaseCommand command)
         {
             try
             {

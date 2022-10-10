@@ -9,14 +9,16 @@ using TestStore.Implementation.DataAccess;
 
 namespace TestStore.Implementation.Validators
 {
-    public class CreateBrandValidator : AbstractValidator<BrandDto>
+    public class BrandBaseValidator : AbstractValidator<BrandDto>
     {
-        public CreateBrandValidator(TestStoreDbContext context)
+        public BrandBaseValidator(TestStoreDbContext context)
         {
+
             RuleFor(x => x.Name)
                 .Cascade(CascadeMode.Stop)
                 .NotEmpty().WithMessage("Brand's name mustn't be null or empty.")
                 .Must(name => !context.Brands.Any(x => x.Name == name)).WithMessage("There is already a brand with given name.");
-        } 
+
+        }
     }
 }
