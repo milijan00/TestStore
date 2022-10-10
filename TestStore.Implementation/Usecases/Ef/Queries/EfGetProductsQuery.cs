@@ -29,20 +29,7 @@ namespace TestStore.Implementation.Usecases.Ef.Queries
 
             var products = Context.Products.Include(x => x.Category).Include(x => x.Brand).Include(x => x.Price).Where(x => x.IsActive).AsQueryable();
 
-            if (dto.Keyword.IsStringNotNullOrEmpty())
-            {
-                products = products.Where(p => p.Name.Contains(dto.Keyword) || p.Category.Name.Contains(dto.Keyword) || p.Brand.Name.Contains(dto.Keyword));
-            }
-
-            if (dto.Categories.Count() > 0)
-            {
-                products = products.Where(p => dto.Categories.Contains(p.CategoryId));
-            }
-            
-            if (dto.Brands.Count() > 0)
-            {
-                products = products.Where(p => dto.Brands.Contains(p.BrandId));
-            }
+            products = this.FilterProducts(dto, products);
 
             products = this.SortProducts(dto.SortValue, products);
 
@@ -58,6 +45,24 @@ namespace TestStore.Implementation.Usecases.Ef.Queries
             }).ToList();
         }
 
+        private IQueryable<Domain.Product> FilterProducts(SearchProductsDto dto, IQueryable<Domain.Product> products)
+        {
+            if (dto.Keyword.IsStringNotNullOrEmpty())
+            {
+                products = products.Where(p => p.Name.Contains(dto.Keyword) || p.Category.Name.Contains(dto.Keyword) || p.Brand.Name.Contains(dto.Keyword));
+            }
+
+            if (dto.Categories.Count() > 0)
+            {
+                products = products.Where(p => dto.Categories.Contains(p.CategoryId));
+            }
+            
+            if (dto.Brands.Count() > 0)
+            {
+                products = products.Where(p => dto.Brands.Contains(p.BrandId));
+            }
+            return products;
+        }
         private IQueryable<Domain.Product> SortProducts(string value, IQueryable<Domain.Product> products)
         {
             if(value == "Name-ASC")
