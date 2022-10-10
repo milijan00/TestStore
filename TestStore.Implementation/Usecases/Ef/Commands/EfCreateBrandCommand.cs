@@ -14,8 +14,8 @@ namespace TestStore.Implementation.Usecases.Ef.Commands
 {
     public class EfCreateBrandCommand : EfBase, ICreateBrandCommand
     {
-        private CreateBrandValidator _validator;
-        public EfCreateBrandCommand(TestStoreDbContext context, CreateBrandValidator validator) : base(context)
+        private BrandBaseValidator _validator;
+        public EfCreateBrandCommand(TestStoreDbContext context, BrandBaseValidator validator) : base(context)
         {
             _validator = validator;
         }

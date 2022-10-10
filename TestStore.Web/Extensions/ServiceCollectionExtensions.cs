@@ -75,7 +75,7 @@ namespace TestStore.Web.Extensions
             services.AddTransient<UpdateProductValidator>() ;
             services.AddTransient<CreateCategoryValidator>() ;
             services.AddTransient<UpdateCategoryValidator>() ;
-            services.AddTransient<CreateBrandValidator>() ;
+            services.AddTransient<BrandBaseValidator>() ;
             services.AddTransient<UpdateBrandValidator>() ;
         }
 
