@@ -57,6 +57,10 @@ namespace TestStore.Web.Extensions
 
             //brands
             services.AddTransient<IGetBrandsQuery, EfGetBrandsQuery>();
+            services.AddTransient<IGetBrandQuery, EfGetBrandQuery>();
+            services.AddTransient<ICreateBrandCommand, EfCreateBrandCommand>();
+            services.AddTransient<IUpdateBrandCommand, EfUpdateBrandCommand>();
+            services.AddTransient<IDeleteBrandCommand, EfDeleteBrandCommand>();
         }
 
         public static void AddValidators(this IServiceCollection services)
@@ -71,6 +75,8 @@ namespace TestStore.Web.Extensions
             services.AddTransient<UpdateProductValidator>() ;
             services.AddTransient<CreateCategoryValidator>() ;
             services.AddTransient<UpdateCategoryValidator>() ;
+            services.AddTransient<CreateBrandValidator>() ;
+            services.AddTransient<UpdateBrandValidator>() ;
         }
 
         public static void AddJwt(this IServiceCollection services, AppSettings settings)
