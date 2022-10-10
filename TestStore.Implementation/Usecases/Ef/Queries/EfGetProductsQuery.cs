@@ -43,20 +43,8 @@ namespace TestStore.Implementation.Usecases.Ef.Queries
             {
                 products = products.Where(p => dto.Brands.Contains(p.BrandId));
             }
-            
-            if(dto.SortValue == "Name-ASC")
-            {
-                products = products.OrderBy(x => x.Name);
-            }else if(dto.SortValue == "Name-DESC")
-            {
-                products = products.OrderByDescending(x => x.Name);
-            }else if(dto.SortValue == "Price-ASC")
-            {
-                products = products.OrderBy(x => x.Price);
-            }else if(dto.SortValue == "Price-DESC")
-            {
-                products = products.OrderByDescending(x => x.Price);
-            }
+
+            products = this.SortProducts(dto.SortValue, products);
 
             return products.Select(x => new ProductDto
             {
@@ -68,6 +56,23 @@ namespace TestStore.Implementation.Usecases.Ef.Queries
                 Price = x.Price.Value,
                 ImageName = x.Image
             }).ToList();
+        }
+
+        private IQueryable<Domain.Product> SortProducts(string value, IQueryable<Domain.Product> products)
+        {
+            if(value == "Name-ASC")
+            {
+                return  products.OrderBy(x => x.Name);
+            }else if(value == "Name-DESC")
+            {
+                return products.OrderByDescending(x => x.Name);
+            }else if(value == "Price-ASC")
+            {
+                return  products.OrderBy(x => x.Price);
+            }else 
+            {
+                return products.OrderByDescending(x => x.Price);
+            }
         }
     }
 }
