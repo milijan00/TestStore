@@ -1,1 +1,10 @@
 ReadMe.txt
+TestResults
+Application
+.vs
+TestStore.Implementation/bin
+TestStore.Tests/bin
+TestStore.Web/bin
+TestStore.Web/obj
+TestStore.Tests/obj
+TestStore.Implementation/obj
