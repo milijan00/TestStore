@@ -23,32 +23,15 @@ namespace TestStore.Web.Controllers
         public IActionResult Login([FromForm] UserLoginDto dto, [FromServices] JWTManager manager)
         {
             //return RedirectToAction("Index", dto);
-            try
-            {
                 var tokens = manager.MakeTokens(dto.Username, dto.Password);
                 return Ok(new { access = tokens[0], refresh = tokens[1] });
-            }catch(UnauthorizedAccessException ex)
-            {
-                return Unauthorized();
-            }
         }
 
         [HttpPost]
         public IActionResult Create([FromForm] CreateUserDto dto, [FromServices] ICreateUserCommand command)
         {
-            try
-            {
                 this._handler.HandleCommand(command, dto);
                 return StatusCode(201);
-            }
-            catch(UnprocessableEntityException ex)
-            {
-                return UnprocessableEntity(ex.Errors);
-            }
-            catch (Exception ex)
-            {
-                return StatusCode(500);
-            }
         }
         [HttpGet]
         public IActionResult Register()

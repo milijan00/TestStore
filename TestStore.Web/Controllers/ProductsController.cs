@@ -26,78 +26,35 @@ namespace TestStore.Web.Controllers
         [HttpGet]
         public IActionResult Get([FromServices] IGetProductsQuery query, [FromQuery] SearchProductsDto dto)
         {
-            try
-            {
                 var result = this._handler.HandleQuery(query, dto);
                 return Ok(result);
-            }catch(Exception ex)
-            {
-                return StatusCode(500);
-            }
         }
 
         [HttpGet]
         public IActionResult Find(int id, [FromServices] IGetProductQuery query)
         {
-            try
-            {
                 return Ok(this._handler.HandleQuery(query, id)); 
-            }
-            catch(EntityNotFoundException ex)
-            {
-                return NotFound();
-            }
-            catch(Exception ex)
-            {
-                return StatusCode(500);
-            }
         }
 
         [HttpPost]
         public IActionResult Store([FromForm] ProductWithImageDto dto, [FromServices] ICreateProductCommand command)
         {
-            try
-            {
-                // upload image to the server
-
                 string fileName = this.UploadImageToServer(dto.Image);
                 dto.ImageName = fileName;
                 this._handler.HandleCommand(command, dto);
                 return StatusCode(201);
-            }
-            catch(UnprocessableEntityException ex)
-            {
-                return UnprocessableEntity(ex.Errors);
-            }
-            catch(Exception ex)
-            {
-                return StatusCode(500);
-            }
         }
 
         [HttpDelete]
         public IActionResult Delete(int id, [FromServices] IDeleteProductCommand command)
         {
-            try
-            {
                 this._handler.HandleCommand(command, id);
                 return NoContent();
-            }
-            catch(EntityNotFoundException ex)
-            {
-                return NotFound(); 
-            }
-            catch(Exception ex)
-            {
-                return StatusCode(500);
-            }
         }
 
         [HttpPatch]
         public IActionResult Update([FromServices] IUpdateProductCommand command, [FromForm] ProductWithImageDto dto)
         {
-            try
-            {
                 if(dto.Image != null)
                 {
                     string fileName = this.UploadImageToServer(dto.Image);
@@ -105,15 +62,6 @@ namespace TestStore.Web.Controllers
                 }
                 this._handler.HandleCommand(command, dto);
                 return StatusCode(201);
-            }
-            catch(UnprocessableEntityException ex)
-            {
-                return UnprocessableEntity(ex.Errors);
-            }
-            catch(Exception ex)
-            {
-                return StatusCode(500);
-            }
         }
         private string UploadImageToServer(IFormFile ImageToUlooad)
         {
@@ -141,19 +89,10 @@ namespace TestStore.Web.Controllers
         [HttpPost]
         public IActionResult ImageUpload([FromForm] ProductImageDto dto, [FromServices] IUpdateProductCommand command)
         {
-            try
-            {
                 string fileName = this.UploadImageToServer(dto.Image);
                 var product = new ProductDto { ImageName = fileName, Id = dto.Id };
                 this._handler.HandleCommand(command, product);
                 return NoContent();
-            }catch(UnprocessableEntityException ex)
-            {
-                return UnprocessableEntity(ex.Errors);
-            }catch(Exception ex)
-            {
-                return StatusCode(500);
-            }
         }
         private int[] GetNewSize(Image image, int maxWidth = 250, int maxHeight = 250)
         {

@@ -8,3 +8,4 @@ TestStore.Web/bin
 TestStore.Web/obj
 TestStore.Tests/obj
 TestStore.Implementation/obj
+.vs/TestStore/
