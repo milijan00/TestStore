@@ -5,6 +5,7 @@ VisualStudioVersion = 17.1.32328.378
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{7D5DD134-A0F5-4ED9-A2DC-A85BE39499C7}"
 	ProjectSection(SolutionItems) = preProject
+		.gitignore = .gitignore
 		ReadMe.txt = ReadMe.txt
 	EndProjectSection
 EndProject
@@ -16,7 +17,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TestStore.Application", "Ap
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TestStore.Implementation", "TestStore.Implementation\TestStore.Implementation.csproj", "{7121CF54-7B83-46F4-9F97-EF9C982AFF49}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestStore.Tests", "TestStore.Tests\TestStore.Tests.csproj", "{E7CCC829-5737-48DD-A1D2-A6FFBDF4912D}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TestStore.Tests", "TestStore.Tests\TestStore.Tests.csproj", "{E7CCC829-5737-48DD-A1D2-A6FFBDF4912D}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

@@ -33,7 +33,7 @@ app.UseHttpsRedirection();
 app.UseStaticFiles();
 
 app.UseRouting();
-
+app.UseMiddleware<GlobalExceptionHandler>();
 app.UseAuthorization();
 app.MapRazorPages();
 app.MapControllerRoute(
