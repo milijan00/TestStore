@@ -94,61 +94,23 @@
       </div>
     </div>
 </section>>
-<script>
-    var addedProducts = [];
-    function SelectedProduct(id, image){
-        this.id = id;
-        this.image = image;
+<script type="module">
+    import {addProductToLocalStorage, SelectedProduct} from "/js/manageProducts.js";
+    if(!localStorage.getItem("products")){
+        localStorage.setItem("products", JSON.stringify([]));
     }
-    if(localStorage){
-        var products = localStorage.getItem("products");
-        if(products){
-            addedProducts = JSON.parse(products);
-        }
-    }
-    function addProduct(selectedProduct){
-        if(addedProducts.length > 0){
-            var product = addedProducts.filter(x => x.id == selectedProduct.id)[0];
-            if(product){
-                increaseQuantityByOne();            
-            }else {
-                addNewProduct();
-            }
-        }else {
-            addNewProduct();
-        }
-        saveProductsToLocalStorage();
-        showToast();
-
-        function addNewProduct(){
-            addedProducts.push({
-                id : selectedProduct.id,
-                image : selectedProduct.image,
-                quantity: 1
-            });
-        }
-
-        function increaseQuantityByOne(){
-            var index = addedProducts.indexOf(product);
-           addedProducts[index].quantity += 1;
-        }
-
-        function showToast(){
-            const toastElement = $(".toast");
-            const toast = new bootstrap.Toast(toastElement)
-            toast.show();
-        }
-    }
-    function saveProductsToLocalStorage(){
-        var str = JSON.stringify(addedProducts);
-        localStorage.setItem("products", str);
+    function showToast(){
+        const toastElement = $(".toast");
+        const toast = new bootstrap.Toast(toastElement)
+        toast.show();
     }
     function applyAddToCartButtonsFunctionality(){
         $(".add-to-cart").click(function(e){
             e.preventDefault();
             // add  product to the cart
             
-            addProduct(new SelectedProduct(this.getAttribute("data-id"), this.getAttribute("data-image")));
+            addProductToLocalStorage(new SelectedProduct(this.getAttribute("data-id"), this.getAttribute("data-image")));
+            showToast();
         });
     }
 
