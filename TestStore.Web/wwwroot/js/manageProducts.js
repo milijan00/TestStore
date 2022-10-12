@@ -14,8 +14,8 @@
         var addedProducts = getProducts();
         if(addedProducts.length > 0){
             var product = addedProducts.filter(x => x.id == selectedProduct.id)[0];
-            if(product){
-                increaseQuantityByOne();            
+            if (product) {
+                increaseQuantityByOne({ addedProducts: addedProducts, product: product });
             }else {
                 addNewProduct();
             }
@@ -32,14 +32,33 @@
             });
         }
 
-        function increaseQuantityByOne(){
-            var index = addedProducts.indexOf(product);
-           addedProducts[index].quantity += 1;
-        }
 
     }
+    export function decreaseQuantityByOne(opts){
+        let products = getProducts();
+        let product = products.filter(el => el.id == opts.id)[0];
+        var index = products.indexOf(product);
+        products[index].quantity -= 1;
+        if (products[index].quantity < 1) {
+            products[index].quantity = 1;
+        }
+        saveProductsToLocalStorage(products);
+    }
+    export function increaseQuantityByOne(opts) {
+        if (opts.addedProducts && opts.product) {
+            var index = opts.addedProducts.indexOf(opts.product);
+            opts.addedProducts[index].quantity += 1;
+        }
+        else if (opts.id) {
+            let products = getProducts();
+            let product = products.filter(el => el.id == opts.id)[0];
+            var index = products.indexOf(product);
+            products[index].quantity += 1;
+            saveProductsToLocalStorage(products);
+        }
+    }
 
-    function saveProductsToLocalStorage(products){
+    export function saveProductsToLocalStorage(products){
         var str = "";
         var str = JSON.stringify(products);
         localStorage.setItem("products", str);

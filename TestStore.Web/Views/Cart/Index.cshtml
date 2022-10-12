@@ -9,7 +9,7 @@
 </section>
 
 <script type="module">
-    import {removeProduct} from "/js/manageProducts.js";
+    import {removeProduct,saveProductsToLocalStorage, increaseQuantityByOne, decreaseQuantityByOne} from "/js/manageProducts.js";
     $(document).ready(function(){
         loadProductsFromLocalStorage();
 
@@ -27,12 +27,12 @@
                 $("#content").html(`<p>There are no products in the cart.</p>`);
             }
 
-            function renderQuantityButtons(quantity){
+            function renderQuantityButtons(product){
                 return `
                 <div>
-                <a href='#' class="btn btn-light">&minus;</a> 
-                <span>${quantity}</span>
-                <a href='#' class="btn btn-light">&plus;</a> 
+                <a href='#' class="btn btn-light decrease" data-id="${product.id}">&minus;</a> 
+                <span>${product.quantity}</span>
+                <a href='#' class="btn btn-light increase" data-id="${product.id}">&plus;</a> 
                 </div> 
                 `;
             }
@@ -52,7 +52,7 @@
                     html += `
                     <tr>
                         <td style="width:5%;"><img src='/images/${p.image}' alt='product' class='img-fluid'/></td> 
-                        <td>${renderQuantityButtons(p.quantity)}</td> 
+                        <td>${renderQuantityButtons(p)}</td> 
                         <td><a href='#' class='btn btn-danger remove-product' data-id='${p.id}'>Remove</a></td> 
                     </tr> 
                     `;
@@ -69,6 +69,21 @@
                     removeProduct(id);
                     loadProductsFromLocalStorage();
                 });
+
+                $(".decrease").click(function(e){
+                    e.preventDefault();
+                    const id = this.getAttribute("data-id");
+                    decreaseQuantityByOne({id : id});
+                    loadProductsFromLocalStorage();
+                });
+
+                $(".increase").click(function(e){
+                    e.preventDefault();
+                    const id = this.getAttribute("data-id");
+                    increaseQuantityByOne({id : id});
+                    loadProductsFromLocalStorage();
+                });
+
 
             }
         }
