@@ -4,3 +4,61 @@
 @{
 }
 <h1>Cart page!</h1>
+
+<section class="container mx-auto" id="content">
+
+</section>
+
+<script>
+    $(document).ready(function(){
+        var products = JSON.parse(localStorage.getItem("products"));
+        
+        if(!products){
+            noProducts();
+            return;
+        }
+
+        displayProducts(products);
+
+        function noProducts(){
+            $("#content").html(`<tr><p>There are no products in the cart.</tr>`);
+        }
+
+        function renderQuantityButtons(quantity){
+            return `
+            <div>
+            <a href='#' class="btn btn-light">&minus;</a> 
+            <span>${quantity}</span>
+            <a href='#' class="btn btn-light">&plus;</a> 
+            </div> 
+            `;
+        }
+        function displayProducts(products){
+            let html = `
+    <table class="table table-stripped">
+        <thead>
+            <tr>
+                <th>Product</th>
+                <th>Quantity</th>
+                <th>Remove</th>
+            </tr>
+        </thead>
+        <tbody>
+            `;
+            for(let p of  products){
+                html += `
+                <tr>
+                    <td style="width:5%;"><img src='/images/${p.image}' alt='product' class='img-fluid'/></td> 
+                    <td>${renderQuantityButtons(p.quantity)}</td> 
+                    <td><a href='#' class='btn btn-danger'>Remove</a></td> 
+                </tr> 
+                `;
+            }
+            html += `
+        </tbody>
+    </table>
+            `;
+            $("#content").html(html);
+        }
+    });
+</script>
