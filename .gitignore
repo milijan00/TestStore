@@ -9,3 +9,7 @@ TestStore.Web/obj
 TestStore.Tests/obj
 TestStore.Implementation/obj
 .vs/TestStore/
+TestStore.Domain/obj
+TestStore.Domain/bin
+Application/obj
+Application/bin

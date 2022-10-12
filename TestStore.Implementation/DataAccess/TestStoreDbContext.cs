@@ -15,8 +15,8 @@ namespace TestStore.Implementation.DataAccess
         public DbSet<Category> Categories { get; set; }
         public DbSet<Brand> Brands { get; set; }
         public DbSet<Product> Products { get; set; }
-        public DbSet<Chart> Charts { get; set; }
-        public DbSet<ChartProduct> ChartsProducts { get; set; }
+        public DbSet<Cart> Carts { get; set; }
+        public DbSet<CartProduct> CartsProducts { get; set; }
         public DbSet<Specification> Specifications { get; set; }
         public DbSet<SpecificationValue> SpecificationsValues { get; set; }
         public DbSet<Usecase> Usecases { get; set; }
@@ -26,7 +26,8 @@ namespace TestStore.Implementation.DataAccess
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.ApplyConfigurationsFromAssembly(this.GetType().Assembly);
-            modelBuilder.Entity<ChartProduct>().HasKey(x => new { x.ChartId, x.ProductId });
+            modelBuilder.Entity<CartProduct>().HasKey(x => new { x.ChartId, x.ProductId });
+            modelBuilder.Entity<CartProduct>().Property(x => x.Quantity).IsRequired();
             modelBuilder.Entity<ProductPrice>().HasKey(x => new { x.ProductId, x.Value });
             modelBuilder.Entity<ProductPrice>().Property(x => x.CreatedAt).HasDefaultValueSql("GETDATE()");
             modelBuilder.Entity<ProductPrice>().Property(x => x.IsActive).HasDefaultValue(true);

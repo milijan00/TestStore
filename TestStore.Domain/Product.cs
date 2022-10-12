@@ -16,7 +16,7 @@ namespace TestStore.Domain
         public Brand Brand { get; set; }
         public int BrandId { get; set; }
         public ICollection<ProductSpecification> Specifications { get; set; } = new List<ProductSpecification>();
-        public ICollection<ChartProduct> Charts { get; set; } = new List<ChartProduct>();
+        public ICollection<CartProduct> Charts { get; set; } = new List<CartProduct>();
         public ProductPrice Price { get; set; }
 
     }

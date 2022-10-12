@@ -8,9 +8,9 @@ using TestStore.Domain;
 
 namespace TestStore.Implementation.DataAccess.Configurations
 {
-    public class ChartConfiguration : EntityConfiguration<Chart>
+    public class ChartConfiguration : EntityConfiguration<Cart>
     {
-        public override void ApplyChildConfiguration(EntityTypeBuilder<Chart> builder)
+        public override void ApplyChildConfiguration(EntityTypeBuilder<Cart> builder)
         {
             builder.Property(x => x.UserId).IsRequired();
 

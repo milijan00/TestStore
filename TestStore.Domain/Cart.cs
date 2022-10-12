@@ -6,11 +6,11 @@ using System.Threading.Tasks;
 
 namespace TestStore.Domain
 {
-    public class Chart : Entity
+    public class Cart : Entity
     {
         public int UserId { get; set; }
         public User User { get; set; }
 
-        public ICollection<ChartProduct> Products { get; set; } = new List<ChartProduct>();
+        public ICollection<CartProduct> Products { get; set; } = new List<CartProduct>();
     }
 }
