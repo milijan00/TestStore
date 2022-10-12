@@ -72,7 +72,7 @@
                     <p>@p.Price RSD</p>
                 </article>
                 <article>
-                    <a href="#" class="btn btn-primary add-to-cart" >Add to cart</a>
+                    <a href="#" class="btn btn-primary add-to-cart" data-id="@p.Id" data-image="@p.ImageName">Add to cart</a>
                 </article>
             </article>
         }
@@ -102,34 +102,56 @@
     ashdiushad
 </div>*@
 <script>
-
+    var addedProducts = [];
+    function SelectedProduct(id, image){
+        this.id = id;
+        this.image = image;
+    }
+    if(localStorage){
+        var products = localStorage.getItem("products");
+        if(products){
+            addedProducts = JSON.parse(products);
+        }
+    }
+    function addProduct(selectedProduct){
+        if(addedProducts.length > 0){
+            var product = addedProducts.filter(x => x.id == selectedProduct.id)[0];
+            if(product){
+                increaseQuantityByOne();            
+            }else {
+                addNewProduct();
+            }
+        }else {
+            addNewProduct();
+        }
+        saveProductsToLocalStorage();
+        function addNewProduct(){
+            addedProducts.push({
+                id : selectedProduct.id,
+                image : selectedProduct.image,
+                quantity: 1
+            });
+        }
+        function increaseQuantityByOne(){
+            var index = addedProducts.indexOf(product);
+           addedProducts[index].quantity += 1;
+        }
+    }
+    function saveProductsToLocalStorage(){
+        var str = JSON.stringify(addedProducts);
+        localStorage.setItem("products", str);
+    }
     function applyAddToCartButtonsFunctionality(){
         $(".add-to-cart").click(function(e){
             e.preventDefault();
-            alert("Product added to the cart!");
-            /**
-             * send a request to the server in order to add product to a cart.
-             * 
-             * product {
-             *  id : 1,
-             * 
-             * }
-             */
+            // add  product to the cart
+            
+            addProduct(new SelectedProduct(this.getAttribute("data-id"), this.getAttribute("data-image")));
         });
     }
 
     applyAddToCartButtonsFunctionality();
-   //var  categories = [];
-    //$(".category").click(function(e){
-    //    if(this.checked){
-    //        let i = categories.indexOf(this.value);
-    //        categories.splice(i, 1);
-    //        console.log(categories);
-    //    }else {
-    //        categories.push(this.value);
-    //        console.log(this.value);
-    //    }
-    //});
+
     function getQueryFromArray(name, values){
         var string = "";
         for(let v of values){
