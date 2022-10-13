@@ -13,5 +13,6 @@ namespace TestStore.Domain
         public int ChartId { get; set; }
         public int ProductId { get; set; }
         public int Quantity { get; set; }
+        public decimal UnitPrice { get; set; }
     }
 }

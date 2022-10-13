@@ -13,3 +13,5 @@ TestStore.Domain/obj
 TestStore.Domain/bin
 Application/obj
 Application/bin
+TestStore.Implementation/Migrations/
+TestStore.Implementation/Migrations/TestStoreDbContextModelSnapshot.cs

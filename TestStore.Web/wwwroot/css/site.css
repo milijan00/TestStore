@@ -28,3 +28,10 @@ body {
 .product{
     box-shadow: 3px 5px 20px rgba(0,0,0,0.4);
 }
+#checkoutModal{
+    position:fixed;
+    z-index:20;
+    top:0;
+    left: 0;
+    background: rgba(0, 0, 0, 0.5);
+}

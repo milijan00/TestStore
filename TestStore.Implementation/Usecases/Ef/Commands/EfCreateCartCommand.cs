@@ -33,11 +33,8 @@ namespace TestStore.Implementation.Usecases.Ef.Commands
             {
                 throw new UnprocessableEntityException(result.Errors);
             }
-            var previousCart = this.Context.Carts.FirstOrDefault(x => x.UserId == data.UserId.Value && x.IsActive);
-            if(previousCart != null)
-            {
-                previousCart.IsActive = false;
-            }
+
+            this.DeletePrevoiusCart(data);
 
             var cart = new Cart
             {
@@ -48,7 +45,15 @@ namespace TestStore.Implementation.Usecases.Ef.Commands
             this.Context.Carts.Add(cart);
             this.Context.SaveChanges();
         }
-
+        
+        private void DeletePrevoiusCart(CartDto data) 
+        {
+            var previousCart = this.Context.Carts.FirstOrDefault(x => x.UserId == data.UserId.Value && x.IsActive);
+            if(previousCart != null)
+            {
+                previousCart.IsActive = false;
+            }
+        }
         private List<CartProduct> AddProducts(IEnumerable<CartProductDto> products, Cart cart)
         {
             if(products == null)
@@ -59,7 +64,8 @@ namespace TestStore.Implementation.Usecases.Ef.Commands
             {
                 Chart = cart,
                 ProductId = x.Id,
-                Quantity = x.Quantity
+                Quantity = x.Quantity,
+                UnitPrice = x.UnitPrice
             }).ToList();
         }
     }

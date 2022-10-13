@@ -28,6 +28,7 @@ namespace TestStore.Implementation.DataAccess
             modelBuilder.ApplyConfigurationsFromAssembly(this.GetType().Assembly);
             modelBuilder.Entity<CartProduct>().HasKey(x => new { x.ChartId, x.ProductId });
             modelBuilder.Entity<CartProduct>().Property(x => x.Quantity).IsRequired();
+            modelBuilder.Entity<CartProduct>().Property(x => x.UnitPrice).IsRequired();
             modelBuilder.Entity<ProductPrice>().HasKey(x => new { x.ProductId, x.Value });
             modelBuilder.Entity<ProductPrice>().Property(x => x.CreatedAt).HasDefaultValueSql("GETDATE()");
             modelBuilder.Entity<ProductPrice>().Property(x => x.IsActive).HasDefaultValue(true);

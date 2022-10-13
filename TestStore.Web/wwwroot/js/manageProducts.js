@@ -11,6 +11,11 @@ function getProducts() {
         } else return null;
     }
 }
+export function mapProductsForSending() {
+    return getProducts().map(function (el) {
+        return { id: el.id, unitPrice: parseFloat(el.price), quantity: el.quantity };
+    });
+}
 export function addProductToLocalStorage(selectedProduct){
     var addedProducts = getProducts();
     if(addedProducts.length > 0){

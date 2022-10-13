@@ -9,19 +9,48 @@
 </section>
 <section class=" container mx-auto"style="display:none;" id="totalPriceContainer">
     <article class="mx-2">
-        <h3 class="mb-0">Total amount: <span id="total"></span>RSD</h3>
+        <h3 class="mb-0">Total amount: <span class="total"></span>RSD</h3>
     </article>
     <article>
-        <a href="#" class="btn btn-primary">Checkout</a>
+        <a href="#" class="btn btn-primary" id="checkoutButton">Checkout</a>
     </article>
 </section>
 
+
+<section class="container-fluid vh100 d-none align-items-center"  id="checkoutModal">
+    <section class="container mx-auto p-3 bg-white">
+        <section class="d-flex justify-content-between w-100 mb-3">
+            <article>
+                <h3>Checkout - Your total amount is: <span class="total"></span></h3>
+            </article>
+            <span><a href="#" class="btn btn-light fs-3" id="close-checkout-modal">&times;</a></span>
+        </section>
+        <article>
+           <form action='#' method="POST" name="checkoutForm">
+               <section class="row">
+                    <article class="col-12 mb-3">
+                        <input type="text" placeholder="Enter Your adress" class="form-control" id="adress"/> 
+                    </article>
+                    <article class="col-12 mb-3 text-end">
+                        <input type="submit" value="Submit" class="btn btn-primary"/> 
+                    </article>
+               </section>
+           </form> 
+        </article>
+    </section>
+</section>
+
 <script type="module">
-    import {removeProduct,saveProductsToLocalStorage, increaseQuantityByOne, decreaseQuantityByOne, totalPrice} from "/js/manageProducts.js";
-    $(document).ready(function(){
+    import {removeProduct,saveProductsToLocalStorage, increaseQuantityByOne, decreaseQuantityByOne, totalPrice, mapProductsForSending} from "/js/manageProducts.js";
+      $(document).ready(function(){
+
+        initializeModal();
         loadProductsFromLocalStorage();
+        
+       
         function displayTotal(){
-            total.innerHTML = totalPrice();
+            $(".total").text(totalPrice);
+            //total.innerHTML = totalPrice();
             totalPriceContainer.style.display = "flex";
         }
         function hideTotal(){
@@ -104,6 +133,36 @@
                 });
 
 
+            }
+        }
+        function initializeModal(){
+           $("#close-checkout-modal").click(function(e){
+                e.preventDefault();
+                hideModal();
+            });
+
+            $("#checkoutButton").click(function(e){
+                e.preventDefault();
+                showModal();
+            });
+
+            document.checkoutForm.addEventListener("submit", function(e){
+                e.preventDefault();
+                if(adress.value){
+                   saveProductsToLocalStorage([]);
+                   loadProductsFromLocalStorage();
+                   hideModal();
+                }
+            });
+
+            function showModal(){
+                $("#checkoutModal").addClass("d-flex");
+                $("#checkoutModal").removeClass("d-none");
+            }
+
+            function hideModal(){
+                $("#checkoutModal").addClass("d-none");
+                $("#checkoutModal").removeClass("d-flex");
             }
         }
     });
