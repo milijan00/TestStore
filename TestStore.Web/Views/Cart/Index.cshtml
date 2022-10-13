@@ -7,22 +7,39 @@
 <section class="container mx-auto" id="content">
 
 </section>
+<section class=" container mx-auto"style="display:none;" id="totalPriceContainer">
+    <article class="mx-2">
+        <h3 class="mb-0">Total amount: <span id="total"></span>RSD</h3>
+    </article>
+    <article>
+        <a href="#" class="btn btn-primary">Checkout</a>
+    </article>
+</section>
 
 <script type="module">
-    import {removeProduct,saveProductsToLocalStorage, increaseQuantityByOne, decreaseQuantityByOne} from "/js/manageProducts.js";
+    import {removeProduct,saveProductsToLocalStorage, increaseQuantityByOne, decreaseQuantityByOne, totalPrice} from "/js/manageProducts.js";
     $(document).ready(function(){
         loadProductsFromLocalStorage();
+        function displayTotal(){
+            total.innerHTML = totalPrice();
+            totalPriceContainer.style.display = "flex";
+        }
+        function hideTotal(){
+            totalPriceContainer.style.display = "none";
+        }
 
         function loadProductsFromLocalStorage(){
             var products = JSON.parse(localStorage.getItem("products"));
             
             if(!products || products.length == 0){
                 noProducts();
+                hideTotal();
                 return;
             }
 
             displayProducts(products);
-
+            displayTotal();
+            
             function noProducts(){
                 $("#content").html(`<p>There are no products in the cart.</p>`);
             }
