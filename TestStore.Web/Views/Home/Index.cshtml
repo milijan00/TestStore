@@ -72,7 +72,7 @@
                     <p>@p.Price RSD</p>
                 </article>
                 <article>
-                    <a href="#" class="btn btn-primary add-to-cart" data-id="@p.Id" data-image="@p.ImageName">Add to cart</a>
+                    <a href="#" class="btn btn-primary add-to-cart" data-id="@p.Id" data-image="@p.ImageName" data-price="@p.Price">Add to cart</a>
                 </article>
             </article>
         }
@@ -109,7 +109,10 @@
             e.preventDefault();
             // add  product to the cart
             
-            addProductToLocalStorage(new SelectedProduct(this.getAttribute("data-id"), this.getAttribute("data-image")));
+            const id = this.getAttribute("data-id");
+            const image = this.getAttribute("data-image");
+            const price = this.getAttribute("data-price");
+            addProductToLocalStorage(new SelectedProduct(id, image, price));
             showToast();
         });
     }

@@ -42,6 +42,7 @@
             <thead>
                 <tr>
                     <th>Product</th>
+                    <th>Price</th>
                     <th>Quantity</th>
                     <th>Remove</th>
                 </tr>
@@ -52,6 +53,7 @@
                     html += `
                     <tr>
                         <td style="width:5%;"><img src='/images/${p.image}' alt='product' class='img-fluid'/></td> 
+                        <td >${p.price} RSD</td> 
                         <td>${renderQuantityButtons(p)}</td> 
                         <td><a href='#' class='btn btn-danger remove-product' data-id='${p.id}'>Remove</a></td> 
                     </tr> 

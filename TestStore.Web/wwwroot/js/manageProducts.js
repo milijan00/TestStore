@@ -1,6 +1,7 @@
-﻿       export function SelectedProduct(id, image){
+﻿       export function SelectedProduct(id, image, price){
         this.id = id;
         this.image = image;
+       this.price = price;
     }
     function getProducts() {
         if(localStorage){
@@ -27,7 +28,8 @@
         function addNewProduct(){
             addedProducts.push({
                 id : selectedProduct.id,
-                image : selectedProduct.image,
+                image: selectedProduct.image,
+                price : selectedProduct.price,
                 quantity: 1
             });
         }
