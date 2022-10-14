@@ -1,10 +1,12 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using TestStore.Application.Dto;
 using TestStore.Application.Usecases.Commands;
 using TestStore.Implementation.Usecases;
 
 namespace TestStore.Web.Controllers
 {
+    [Authorize]
     public class CartController : Controller
     {
         private UsecaseHandler _handler;
