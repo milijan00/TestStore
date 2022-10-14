@@ -96,6 +96,7 @@
 </section>>
 <script type="module">
     import {addProductToLocalStorage, SelectedProduct} from "/js/manageProducts.js";
+    import token from "/js/jwtmanager.js";
     if(!localStorage.getItem("products")){
         localStorage.setItem("products", JSON.stringify([]));
     }
@@ -108,12 +109,15 @@
         $(".add-to-cart").click(function(e){
             e.preventDefault();
             // add  product to the cart
-            
+           if(token.isValid()) {
             const id = this.getAttribute("data-id");
             const image = this.getAttribute("data-image");
             const price = this.getAttribute("data-price");
             addProductToLocalStorage(new SelectedProduct(id, image, price));
             showToast();
+           }else {
+               alert("You have to be signed in order to add product to the cart.");
+           }
         });
     }
 

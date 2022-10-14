@@ -11,6 +11,9 @@ const token = {
         } catch (e) {
             return null;
         }
+    },
+    isValid() {
+        return this.content();
     }
 }
 
