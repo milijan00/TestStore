@@ -20,11 +20,12 @@ namespace TestStore.Web.Controllers
         }
 
         [HttpPost]
-        public IActionResult Login([FromForm] UserLoginDto dto, [FromServices] JWTManager manager)
+        public IActionResult Login([FromForm] UserLoginDto dto, [FromServices] JWTManager manager, [FromServices] IHttpContextAccessor ctx)
         {
             //return RedirectToAction("Index", dto);
-                var tokens = manager.MakeTokens(dto.Username, dto.Password);
-                return Ok(new { access = tokens[0], refresh = tokens[1] });
+            var tokens = manager.MakeTokens(dto.Username, dto.Password);
+            ctx.HttpContext.Response.Headers["set-cookie"]  = "access=" + tokens[0];
+            return Ok(new { access = tokens[0], refresh = tokens[1] });
         }
 
         [HttpPost]

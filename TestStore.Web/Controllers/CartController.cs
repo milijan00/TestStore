@@ -3,10 +3,11 @@ using Microsoft.AspNetCore.Mvc;
 using TestStore.Application.Dto;
 using TestStore.Application.Usecases.Commands;
 using TestStore.Implementation.Usecases;
+using TestStore.Web.Core;
 
 namespace TestStore.Web.Controllers
 {
-    [Authorize]
+
     public class CartController : Controller
     {
         private UsecaseHandler _handler;
@@ -14,9 +15,14 @@ namespace TestStore.Web.Controllers
         {
             _handler = handler;
         }
-        public IActionResult Index()
+        public IActionResult Index([FromServices] AuthService service)
         {
-            return View();
+            service.RetrieveCookieFromRequest();
+            if (service.Authenticated)
+            {
+                return View();
+            }
+            return RedirectToAction("Index", "Auth");
         }
 
         [HttpDelete]

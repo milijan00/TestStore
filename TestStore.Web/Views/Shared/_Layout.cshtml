@@ -56,7 +56,7 @@
         import token from "/js/jwtmanager.js";
         $("#accessCart").click(function(e){
             e.preventDefault();
-            if(token.isValid()){
+            if(token.content()){
                 location.href="Cart";
             }else {
                 alert("You have to be authorized in order to access cart");

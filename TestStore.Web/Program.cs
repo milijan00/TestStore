@@ -9,10 +9,11 @@ builder.Services.AddControllersWithViews();
 var appSettings = new AppSettings();
 builder.Configuration.Bind(appSettings);
 builder.Services.AddSingleton(appSettings);
-
 builder.Services.AddJwt(appSettings);
 builder.Services.AddActionUser();
 builder.Services.AddHttpContextAccessor();
+
+builder.Services.AddTransient<AuthService>();
 
 builder.Services.AddTransient<TestStoreDbContext>();
 builder.Services.AddRazorPages();
