@@ -22,13 +22,24 @@ namespace TestStore.Implementation.DataAccess
         public DbSet<Usecase> Usecases { get; set; }
         public DbSet<RoleUsecase> RoleUsecases { get; set; }
         public DbSet<NavLink> NavLinks { get; set; }
+        public DbSet<Checkout> Checkouts { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.ApplyConfigurationsFromAssembly(this.GetType().Assembly);
+
             modelBuilder.Entity<CartProduct>().HasKey(x => new { x.ChartId, x.ProductId });
             modelBuilder.Entity<CartProduct>().Property(x => x.Quantity).IsRequired();
             modelBuilder.Entity<CartProduct>().Property(x => x.UnitPrice).IsRequired();
+
+            modelBuilder.Entity<Checkout>().Property(x => x.Adress).IsRequired(false);
+            modelBuilder.Entity<Checkout>().HasKey(x => x.CartId);
+            modelBuilder.Entity<Checkout>().HasOne(x => x.Cart)
+                .WithOne(x => x.Checkout)
+                .HasForeignKey("Cart","CartId")
+                .OnDelete(DeleteBehavior.Restrict);
+
+
             modelBuilder.Entity<ProductPrice>().HasKey(x => new { x.ProductId, x.Value });
             modelBuilder.Entity<ProductPrice>().Property(x => x.CreatedAt).HasDefaultValueSql("GETDATE()");
             modelBuilder.Entity<ProductPrice>().Property(x => x.IsActive).HasDefaultValue(true);

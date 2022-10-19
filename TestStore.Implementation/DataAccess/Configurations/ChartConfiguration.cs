@@ -18,6 +18,7 @@ namespace TestStore.Implementation.DataAccess.Configurations
                 .WithOne(x => x.Chart)
                 .HasForeignKey(x => x.ChartId)
                 .OnDelete(Microsoft.EntityFrameworkCore.DeleteBehavior.Cascade);
+
         }
     }
 }
