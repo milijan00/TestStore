@@ -18,9 +18,11 @@ namespace TestStore.Web.Controllers
         {
             _handler = handler;
         }
-        public IActionResult Index()
+        [HttpGet]
+        public IActionResult Index(int id, [FromServices] IGetProductQuery query)
         {
-            return View();
+            var product = this._handler.HandleQuery(query, id);
+            return View(product);
         }
 
         [HttpGet]

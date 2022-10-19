@@ -1,0 +1,66 @@
+﻿@using TestStore.Application.Dto
+@model ProductDto
+@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+}
+<section class="container mx-auto">
+    <section class="row">
+        <firgure class="col-12 col-md-4">
+            <img src="/images/@Model.ImageName" alt="@Model.Name" class="img-fluid"/>
+        </firgure>
+        <section class="col-12 col-md-8">
+            <article>
+                <h1>@Model.Brand @Model.Name</h1>
+            </article>
+            <article>
+                <p>@Model.Category</p>
+            </article>
+            <section class="d-flex">
+                <article>
+                    <p>@Model.Price</p>
+                </article>
+                <article >
+                    <a class="btn btn-primary" href="#" data-id="@Model.Id" data-image="@Model.ImageName" data-price="@Model.Price" id="add-to-cart">Add to cart</a>
+                </artricle>
+            </section>
+        </section>
+    </section>
+    <section>
+        <!-- Show products specifications in this section-->
+    </section>
+</section>
+<section class="container mx-auto d-flex justify-content-end align-items-end pt-3">
+    <div class="toast" role="alert" aria-live="assertive" aria-atomic="true">
+      <div class="toast-header">
+        <strong class="mr-auto">Add to cart</strong>
+      </div>
+      <div class="toast-body">
+        Your product has been added to the cart.
+      </div>
+    </div>
+</section>
+<script type="module">
+    import {addProductToLocalStorage, SelectedProduct} from "/js/manageProducts.js";
+    import token from "/js/jwtmanager.js";
+    function showToast(){
+        const toastElement = $(".toast");
+        const toast = new bootstrap.Toast(toastElement)
+        toast.show();
+    }
+
+    $("#add-to-cart").click(function(e){
+        e.preventDefault();
+           if(token.content()) {
+            const id = this.getAttribute("data-id");
+            const image = this.getAttribute("data-image");
+            const price = this.getAttribute("data-price");
+            addProductToLocalStorage(new SelectedProduct(id, image, price));
+            showToast();
+           }else {
+               alert("You have to be signed in order to add product to the cart.");
+           }
+    })
+</script>
+

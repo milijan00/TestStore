@@ -38,7 +38,8 @@ namespace TestStore.Implementation.Usecases.Ef.Queries
                 Description = product.Description,
                 Brand = product.Brand.Name,
                 Category = product.Category.Name,
-                Price = product.Price.Value
+                Price = product.Price.Value,
+                ImageName = product.Image
             };
         }
     }

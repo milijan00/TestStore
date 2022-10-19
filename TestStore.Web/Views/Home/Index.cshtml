@@ -63,7 +63,7 @@
                     <img src="/images/@p.ImageName" alt="product" class="img-fluid"/>
                 </figure>
                 <article>
-                    <p>@p.Brand @p.Name</p>
+                    <a asp-action="Index" asp-controller="Products" asp-route-id="@p.Id">@p.Brand @p.Name</a>
                 </article>
                 <article>
                     <p>@p.Description</p>
