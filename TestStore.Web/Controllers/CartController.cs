@@ -33,7 +33,7 @@ namespace TestStore.Web.Controllers
         }
 
         [HttpPost]
-        public IActionResult Store([FromForm] CartDto dto, ICreateCartCommand command)
+        public IActionResult Store([FromForm] CartDto dto, [FromServices] ICreateCartCommand command)
         {
             this._handler.HandleCommand(command, dto);
             return StatusCode(201);

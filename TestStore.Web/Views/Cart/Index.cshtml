@@ -42,6 +42,7 @@
 
 <script type="module">
     import {removeProduct,saveProductsToLocalStorage, increaseQuantityByOne, decreaseQuantityByOne, totalPrice, mapProductsForSending} from "/js/manageProducts.js";
+    import token from "/js/jwtmanager.js";
       $(document).ready(function(){
 
         initializeModal();
@@ -149,9 +150,27 @@
             document.checkoutForm.addEventListener("submit", function(e){
                 e.preventDefault();
                 if(adress.value){
-                   saveProductsToLocalStorage([]);
-                   loadProductsFromLocalStorage();
-                   hideModal();
+                    // send data to the database
+                    var products = mapProductsForSending();
+                    console.log(products);
+                    const data = {
+                        products : mapProductsForSending(),
+                        userId : token.content().UserId ,
+                        adress : adress.value
+                    };
+                    $.ajax({
+                        url : "http://localhost:5257/cart/store",
+                        data : data,
+                        method : "POST",
+                        success : function(result){
+                           saveProductsToLocalStorage([]);
+                           loadProductsFromLocalStorage();
+                           hideModal();
+                        },
+                        error(error, status, xhr){
+                            console.error(error);
+                        }
+                    });
                 }
             });
 

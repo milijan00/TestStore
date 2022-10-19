@@ -15,7 +15,7 @@ namespace TestStore.Implementation.Usecases.Ef.Commands
     public class EfCreateCartCommand : EfBase, ICreateCartCommand
     {
         private CartBaseValidator _validator;
-        public EfCreateCartCommand(TestStoreDbContext context, CartBaseValidator validator = null) : base(context)
+        public EfCreateCartCommand(TestStoreDbContext context, CartBaseValidator validator ) : base(context)
         {
             _validator = validator;
         }
@@ -41,8 +41,13 @@ namespace TestStore.Implementation.Usecases.Ef.Commands
                 UserId = data.UserId.Value
             };
             cart.Products = this.AddProducts(data.Products, cart);
-
+            var checkout = new Checkout
+            {
+                Cart = cart,
+                Adress = data.Adress
+            };
             this.Context.Carts.Add(cart);
+            this.Context.Checkouts.Add(checkout);
             this.Context.SaveChanges();
         }
         

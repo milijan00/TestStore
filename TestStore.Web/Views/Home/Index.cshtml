@@ -109,7 +109,7 @@
         $(".add-to-cart").click(function(e){
             e.preventDefault();
             // add  product to the cart
-           if(token.isValid()) {
+           if(token.content()) {
             const id = this.getAttribute("data-id");
             const image = this.getAttribute("data-image");
             const price = this.getAttribute("data-price");
