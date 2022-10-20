@@ -66,6 +66,10 @@ namespace TestStore.Web.Extensions
             //cart
             services.AddTransient<IDeleteCartCommand, EfDeleteCartCommand>();
             services.AddTransient<ICreateCartCommand, EfCreateCartCommand>();
+
+            // specifications 
+            services.AddTransient<ICreateSpecificationCommand, EfCreateSpecificationCommand>();
+            services.AddTransient<IUpdateSpecificationCommand, EfUpdateSpecificationCommand>();
         }
 
         public static void AddValidators(this IServiceCollection services)
@@ -89,6 +93,9 @@ namespace TestStore.Web.Extensions
             services.AddTransient<UpdateBrandValidator>() ;
 
             services.AddTransient<CartBaseValidator>();
+
+            services.AddTransient<BaseSpecificationValidator>();
+            services.AddTransient<UpdateSpecificationValidator>();
         }
 
         public static void AddJwt(this IServiceCollection services, AppSettings settings)
