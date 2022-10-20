@@ -93,17 +93,13 @@
         Your product has been added to the cart.
       </div>
     </div>
-</section>>
+</section>
 <script type="module">
     import {addProductToLocalStorage, SelectedProduct} from "/js/manageProducts.js";
     import token from "/js/jwtmanager.js";
+    import {showToast} from "/js/toast.js";
     if(!localStorage.getItem("products")){
         localStorage.setItem("products", JSON.stringify([]));
-    }
-    function showToast(){
-        const toastElement = $(".toast");
-        const toast = new bootstrap.Toast(toastElement)
-        toast.show();
     }
     function applyAddToCartButtonsFunctionality(){
         $(".add-to-cart").click(function(e){

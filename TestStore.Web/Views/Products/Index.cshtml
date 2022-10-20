@@ -44,11 +44,7 @@
 <script type="module">
     import {addProductToLocalStorage, SelectedProduct} from "/js/manageProducts.js";
     import token from "/js/jwtmanager.js";
-    function showToast(){
-        const toastElement = $(".toast");
-        const toast = new bootstrap.Toast(toastElement)
-        toast.show();
-    }
+    import {showToast} from "/js/toast.js";
 
     $("#add-to-cart").click(function(e){
         e.preventDefault();
