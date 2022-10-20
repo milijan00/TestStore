@@ -73,6 +73,10 @@ namespace TestStore.Web.Extensions
             services.AddTransient<IDeleteSpecificationCommand, EfDeleteSpecificationCommand>();
             services.AddTransient<IGetSpecificationsQuery, EfGetSpecificationsQuery>();
             services.AddTransient<IGetSpecificationQuery, EfGetSpecificationQuery>();
+
+            // specification values
+            services.AddTransient<ICreateSpecificationValueCommand, EfCreateSpecificationValueCommand>();
+            services.AddTransient<IUpdateSpecificationValueCommand, EfUpdateSpecificationValueCommand>();
         }
 
         public static void AddValidators(this IServiceCollection services)
@@ -99,6 +103,8 @@ namespace TestStore.Web.Extensions
 
             services.AddTransient<BaseSpecificationValidator>();
             services.AddTransient<UpdateSpecificationValidator>();
+
+            services.AddTransient<SpecificationValueValidator>();
         }
 
         public static void AddJwt(this IServiceCollection services, AppSettings settings)
