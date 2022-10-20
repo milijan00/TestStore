@@ -77,6 +77,7 @@ namespace TestStore.Web.Extensions
             // specification values
             services.AddTransient<ICreateSpecificationValueCommand, EfCreateSpecificationValueCommand>();
             services.AddTransient<IUpdateSpecificationValueCommand, EfUpdateSpecificationValueCommand>();
+            services.AddTransient<IDeleteSpecificationValueCommand, EfDeleteSpecificationValueCommand>();
         }
 
         public static void AddValidators(this IServiceCollection services)
