@@ -52,8 +52,6 @@
                 password : password.value
             },
             success(res){
-                localStorage.setItem("access", res.access);
-                localStorage.setItem("refresh", res.refresh);
                 var accessCookie = "access="+res.access;
                 document.cookie = accessCookie;
                 validator.clearForm();
