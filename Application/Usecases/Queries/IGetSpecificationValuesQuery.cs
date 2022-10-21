@@ -5,9 +5,9 @@ using System.Text;
 using System.Threading.Tasks;
 using TestStore.Application.Dto;
 
-namespace TestStore.Application.Usecases.Commands
+namespace TestStore.Application.Usecases.Queries
 {
-    public interface IDeleteSpecificationValueCommand : ICommand<SpecificationValueDto>
+    public interface IGetSpecificationValuesQuery : IQuery<int, IEnumerable<SpecificationValueDto>>
     {
     }
 }
