@@ -13,8 +13,8 @@ namespace TestStore.Implementation.Usecases.Ef.Commands
 {
     public class EfUpdateSpecificationValueCommand : EfBase, IUpdateSpecificationValueCommand
     {
-        private SpecificationValueValidator _validator;
-        public EfUpdateSpecificationValueCommand(TestStoreDbContext context, SpecificationValueValidator validator) : base(context)
+        private UpdateSpecificationValueValidator _validator;
+        public EfUpdateSpecificationValueCommand(TestStoreDbContext context, UpdateSpecificationValueValidator validator) : base(context)
         {
             _validator = validator;
         }
@@ -33,7 +33,7 @@ namespace TestStore.Implementation.Usecases.Ef.Commands
                 throw new UnprocessableEntityException(result.Errors);
             }
             var specificationValue = this.Context.SpecificationsValues.FirstOrDefault(x => x.SpecificationId == data.SpecificationId.Value);
-            specificationValue.Value = data.Value;
+            specificationValue.Value = data.NewValue;
             this.Context.SaveChanges();
         }
     }
