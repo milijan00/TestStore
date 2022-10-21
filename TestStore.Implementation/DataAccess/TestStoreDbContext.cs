@@ -23,6 +23,7 @@ namespace TestStore.Implementation.DataAccess
         public DbSet<RoleUsecase> RoleUsecases { get; set; }
         public DbSet<NavLink> NavLinks { get; set; }
         public DbSet<Checkout> Checkouts { get; set; }
+        public DbSet<ProductSpecification> ProductsSpecifications { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
