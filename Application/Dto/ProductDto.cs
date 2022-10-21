@@ -18,9 +18,14 @@ namespace TestStore.Application.Dto
         public int? BrandId { get; set; }
         public decimal? Price { get; set; }
         public string ImageName { get; set; }
+        public IEnumerable<ProductsSpecificationDto> Specifications { get; set; }
     }
 
-
+    public class ProductsSpecificationDto
+    {
+        public string Name { get; set; }
+        public string Value { get; set; }
+    }
     public class ProductWithImageDto : ProductDto
     {
         public IFormFile Image { get; set; }

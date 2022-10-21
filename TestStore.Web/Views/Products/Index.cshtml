@@ -27,8 +27,23 @@
             </section>
         </section>
     </section>
-    <section>
+    <section class="w-100">
         <!-- Show products specifications in this section-->
+        <table class="table table-striped">
+            <tbody>
+                @foreach(var s in Model.Specifications)
+                {
+                    <tr>
+                        <td>
+                            @s.Name
+                        </td>
+                        <td>
+                            @s.Value
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
     </section>
 </section>
 <section class="container mx-auto d-flex justify-content-end align-items-end pt-3">

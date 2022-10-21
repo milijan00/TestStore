@@ -25,7 +25,12 @@ namespace TestStore.Implementation.Usecases.Ef.Queries
 
         public ProductDto Execute(int data)
         {
-            var product = this.Context.Products.Include(x => x.Category).Include(x => x.Brand).Include(x => x.Price).FirstOrDefault(x => x.Id == data);
+            var product = this.Context.Products.Where(x => x.IsActive)
+                .Include(x => x.Category)
+                .Include(x => x.Brand)
+                .Include(x => x.Price)
+                .Include(x => x.Specifications).ThenInclude(x => x.Specification).ThenInclude(x => x.SpecificationValues)
+                .FirstOrDefault(x => x.Id == data);
             if(product == null)
             {
                 throw new EntityNotFoundException();
@@ -39,7 +44,12 @@ namespace TestStore.Implementation.Usecases.Ef.Queries
                 Brand = product.Brand.Name,
                 Category = product.Category.Name,
                 Price = product.Price.Value,
-                ImageName = product.Image
+                ImageName = product.Image,
+                Specifications = product.Specifications.Select(x => new ProductsSpecificationDto
+                {
+                    Name = x.Specification.Name,
+                    Value = x.Specification.SpecificationValues.First().Value
+                })
             };
         }
     }
