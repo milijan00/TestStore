@@ -107,6 +107,7 @@ namespace TestStore.Web.Extensions
             services.AddTransient<UpdateSpecificationValidator>();
 
             services.AddTransient<SpecificationValueValidator>();
+            services.AddTransient<UpdateSpecificationValueValidator>();
         }
 
         public static void AddJwt(this IServiceCollection services, AppSettings settings)
