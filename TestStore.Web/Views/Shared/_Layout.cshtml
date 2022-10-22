@@ -63,6 +63,12 @@
                 alert("You have to be authorized in order to access cart");
             }
         });
+
+        $("#logout").click(function(e){
+            e.preventDefault();
+            document.cookie = "access=; MaxAge=-99999999";
+            location.href="/";
+        });
     </script>
     @await RenderSectionAsync("Scripts", required: false)
 </body>

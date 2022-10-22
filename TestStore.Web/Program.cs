@@ -1,3 +1,4 @@
+using System.IdentityModel.Tokens.Jwt;
 using TestStore.Implementation.DataAccess;
 using TestStore.Implementation.Usecases;
 using TestStore.Web.Core;
@@ -18,6 +19,7 @@ builder.Services.AddTransient<AuthService>();
 builder.Services.AddTransient<TestStoreDbContext>();
 builder.Services.AddRazorPages();
 builder.Services.AddTransient<UsecaseHandler>();
+builder.Services.AddTransient<JwtSecurityTokenHandler>();
 builder.Services.AddUsecases();
 builder.Services.AddValidators();
 var app = builder.Build();

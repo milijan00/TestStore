@@ -1,5 +1,5 @@
 ﻿@using TestStore.Application.Dto
-@model List<NavLinkDto>
+@model NavLinksUserDataDto
 @*
     For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 *@
@@ -12,7 +12,7 @@
                 </button>
                 <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
                     <ul class="navbar-nav flex-grow-1">
-                        @foreach(var l in Model){
+                        @foreach(var l in Model.NavLinks){
                             @if(l.Name == "Cart"){
                                 <li class="nav-item">
                                 <a class="nav-link text-dark" asp-area="" asp-controller="Cart" asp-action="Index" id="accessCart">Cart</a>
@@ -23,8 +23,20 @@
                                 </li>
                             }
                         }
+                        @if(string.IsNullOrEmpty(Model.Username)){
                         <li>
                             <a class="nav-link text-dark" asp-area="" asp-controller="Auth" asp-action="Index">Sign in</a>
                         </li>
+                        }else {
+                        <li class="nav-item dropdown">
+                          <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                            @Model.Username
+                          </a>
+                          <ul class="dropdown-menu">
+                            <li><a class="dropdown-item" href="#">Edit profile</a></li>
+                            <li><a class="dropdown-item" href="#" id="logout">Logout</a></li>
+                          </ul>
+                        </li>
+                        }
                     </ul>
                 </div>
