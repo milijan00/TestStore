@@ -13,9 +13,18 @@
                 <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
                     <ul class="navbar-nav flex-grow-1">
                         @foreach(var l in Model){
-                            <li class="nav-item">
-                                <a class="nav-link text-dark" asp-area="" asp-controller="@l.Controller" asp-action="@l.Action">@l.Name</a>
-                            </li>
+                            @if(l.Name == "Cart"){
+                                <li class="nav-item">
+                                <a class="nav-link text-dark" asp-area="" asp-controller="Cart" asp-action="Index" id="accessCart">Cart</a>
+                                </li>
+                            }else{
+                                <li class="nav-item">
+                                    <a class="nav-link text-dark" asp-area="" asp-controller="@l.Controller" asp-action="@l.Action">@l.Name</a>
+                                </li>
+                            }
                         }
+                        <li>
+                            <a class="nav-link text-dark" asp-area="" asp-controller="Auth" asp-action="Index">Sign in</a>
+                        </li>
                     </ul>
                 </div>
