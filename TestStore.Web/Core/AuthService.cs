@@ -15,7 +15,11 @@ namespace TestStore.Web.Core
         }
         public void RetrieveCookieFromRequest()
         {
-            this._cookie = this._accessor.HttpContext.Request.Headers.Cookie.FirstOrDefault(x => x.StartsWith("access=")).Split("=")[1];
+            this._cookie = this._accessor.HttpContext.Request.Headers.Cookie.FirstOrDefault(x => x.StartsWith("access="));
+            if (this._cookie != null)
+            {
+                this._cookie = this._cookie.Split("=")[1];
+            }
         }
         public bool Authenticated
         {

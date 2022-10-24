@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using TestStore.Application.Dto;
 using TestStore.Application.Usecases.Commands;
+using TestStore.Application.Usecases.Queries;
 using TestStore.Implementation.Usecases;
 
 namespace TestStore.Web.Controllers
@@ -15,9 +16,11 @@ namespace TestStore.Web.Controllers
         }
        
         [HttpGet]
-       public IActionResult Edit(int id)
+       public IActionResult Edit(int id, [FromServices] IGetUserQuery query)
         {
-            return View();
+            var user = this._handler.HandleQuery(query, id);
+                
+            return View(user);
         } 
         [HttpPatch]
         public IActionResult Update([FromForm] UserDto dto, [FromServices] IUpdateUserCommand command)

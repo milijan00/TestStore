@@ -10,5 +10,6 @@ namespace TestStore.Application.Dto
     {
         public List<NavLinkDto> NavLinks { get; set; }
         public string Username { get; set; }
+        public int UserId { get; set; }
     }
 }

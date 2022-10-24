@@ -1,0 +1,41 @@
+﻿@using TestStore.Application.Dto
+@model UserDto
+@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+}
+<section class="container mx-auto py-3">
+    <section class="row ">
+        <article class="col-12">
+            <h1>Edit Your profile.</h1>
+        </article>
+        <article class="col-12">
+            <form method="POST" name="editProfileForm" action="#">
+                <section class="row">
+                    <article class="col-12 mb-3">
+                        <input class="form-control" placeholder="Firstname" type="text" value="@Model.FirstName" id="firstname"/>
+                    </article>
+                    <article class="col-12 mb-3">
+                        <input class="form-control" placeholder="Lastname" type="text" value="@Model.LastName" id="lastname"/>
+                    </article>
+                    <article class="col-12 mb-3">
+                        <input class="form-control" placeholder="Username" type="text" value="@Model.Username" id="username"/>
+                    </article>
+                    <article class="col-12 mb-3">
+                        <input class="form-control" placeholder="Email" type="email" value="@Model.Email" id="email"/>
+                    </article>
+                    <article class="col-12 mb-3">
+                        <input class="form-control" placeholder="Current password" type="password"  id="password"/>
+                    </article>
+                    <article class="col-12 mb-3">
+                        <input class="form-control" placeholder="New password" type="password"  id="newPassword"/>
+                    </article>
+                    <article class="col-12 mb-3">
+                        <input class="btn btn-primary" value="Update" type="submit"  />
+                    </article>
+                </section>
+            </form>
+        </article>
+    </section>
+</section>

@@ -22,7 +22,8 @@ namespace TestStore.Web.ViewComponents
             var data = new NavLinksUserDataDto();
             if (this._service.Authenticated)
             {
-                data.Username = this._service.Token.Claims.First(x => x.Type == "Username").Value; 
+                data.Username = this._service.Token.Claims.First(x => x.Type == "Username").Value;
+                data.UserId = Int32.Parse(  this._service.Token.Claims.First(x => x.Type == "UserId").Value);
             }
             data.NavLinks = this._context.NavLinks.Select(x => new NavLinkDto
             {
