@@ -15,21 +15,39 @@
                 <section class="row">
                     <article class="col-12 mb-3">
                         <input class="form-control" placeholder="Firstname" type="text" value="@Model.FirstName" id="firstname"/>
+                        <div id="firstnameError" class="alert alert-danger my-2 d-none">
+                            <p></p>
+                        </div>
                     </article>
                     <article class="col-12 mb-3">
                         <input class="form-control" placeholder="Lastname" type="text" value="@Model.LastName" id="lastname"/>
+                        <div id="lastnameError" class="alert alert-danger my-2 d-none">
+                            <p></p>
+                        </div>
                     </article>
                     <article class="col-12 mb-3">
                         <input class="form-control" placeholder="Username" type="text" value="@Model.Username" id="username"/>
+                        <div id="usernameError" class="alert alert-danger my-2 d-none">
+                            <p></p>
+                        </div>
                     </article>
                     <article class="col-12 mb-3">
                         <input class="form-control" placeholder="Email" type="email" value="@Model.Email" id="email"/>
+                        <div id="emailError" class="alert alert-danger my-2 d-none">
+                            <p></p>
+                        </div>
                     </article>
                     <article class="col-12 mb-3">
-                        <input class="form-control" placeholder="Current password" type="password"  id="password"/>
+                        <input class="form-control" placeholder="Current password" type="password" value=""  id="password"/>
+                        <div id="passwordError" class="alert alert-danger my-2 d-none">
+                            <p></p>
+                        </div>
                     </article>
                     <article class="col-12 mb-3">
-                        <input class="form-control" placeholder="New password" type="password"  id="newPassword"/>
+                        <input class="form-control" placeholder="New password" type="password"  value="" id="newPassword"/>
+                        <div id="newPasswordError" class="alert alert-danger my-2 d-none">
+                            <p></p>
+                        </div>
                     </article>
                     <article class="col-12 mb-3">
                         <input class="btn btn-primary" value="Update" type="submit"  />
@@ -39,3 +57,122 @@
         </article>
     </section>
 </section>
+<div class="toast" role="alert" aria-live="assertive" aria-atomic="true">
+  <div class="toast-header">
+    <strong class="mr-auto" id="toast-title">Update profile</strong>
+  </div>
+  <div class="toast-body">
+    You have updated your profile successfully. 
+  </div>
+</div>
+</section>
+<script type="module">
+    import validation , {Validator} from "/js/validation.js";
+    import token from "/js/jwtmanager.js";
+    import {showToast} from "/js/toast.js";
+    const validator = new Validator();
+    var initial = getFormData();
+    document.editProfileForm.addEventListener("submit", function(e){
+        e.preventDefault();
+        validation.hideErrorBlocks(["#firstnameError", "#lastnameError", "#usernameError", "#emailError", "#passwordError", "#newPasswordError"]);
+        validator.clearResults(); 
+        // validate results
+        const editedValues = getEditedValues();
+        if(editedValues.firstName){
+            validator.validateValue(editedValues.firstName, "firstname");
+        }
+
+        if(editedValues.lastName){
+            validator.validateValue(editedValues.lastName, "lastname");
+        }
+
+        if(editedValues.username){
+            validator.validateValue(editedValues.username, "username");
+        }
+        if(editedValues.email)   {
+            validator.validateValue(editedValues.email, "email");
+        }
+        if(editedValues.password)   {
+            validator.validateValue(editedValues.password, "password");
+        }
+        if(editedValues.newPassword)   {
+            validator.validateValue(editedValues.newPassword, "newPassword");
+        }
+        const onlyFirstPasswordEntered = editedValues.password   && editedValues.newPassword == undefined;
+        const onlySecondPasswordEntered = editedValues.password == undefined   && editedValues.newPassword ;
+
+        if(onlyFirstPasswordEntered  || onlySecondPasswordEntered){
+            validator.result.errors["newPassword"] = "Both passwords must be entered.";
+            validator.result.isValid = false;
+        }
+        if(editedValues.password  && editedValues.newPassword  && editedValues.password == editedValues.newPassword){
+            validator.result.errors["newPassword"] = "Both passwords must be different.";
+            validator.result.isValid = false;
+        }
+
+        if(validator.result.isValid && Object.keys(editedValues).length){
+            var data = editedValues;
+            data.id = token.content().UserId;
+            console.log(data);
+            $.ajax({
+                url : "http://localhost:5257/users/update",
+                data : data,
+                method : "PATCH",
+                success: function(result){
+                    showToast();
+                    initial = getFormData();
+                    clearEditingForm();
+                },
+                error(err){
+                    console.error(err);
+                }
+            });
+        }else {
+            validation.displayErrorMessages(validator.result.errors);
+        }
+    });
+
+    function getFormData(){
+        return {
+            firstName : firstname.value,
+            lastName : lastname.value,
+            email : email.value,
+            username : username.value,
+            password : password.value,
+            newPassword : newPassword.value
+        };
+
+    }
+    function clearEditingForm(){
+        password.value = "";
+        newPassword.value = "";
+    }
+    function getEditedValues(){
+        var editedValues = {};
+        if(initial.firstName != firstname.value){
+            editedValues.firstName = firstname.value;
+        }
+
+        if(initial.lastName != lastname.value){
+            editedValues.lastName = lastname.value;
+        }
+
+        if(initial.email != email.value){
+            editedValues.email = email.value;
+        }
+
+        if(initial.username != username.value){
+            editedValues.username = username.value;
+        }
+
+        if(initial.password != password.value){
+            editedValues.password = password.value;
+        }
+
+        if(initial.newPassword != newPassword.value){
+            editedValues.newPassword = newPassword.value;
+        }
+
+        return editedValues;
+    }
+</script>

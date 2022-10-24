@@ -1,5 +1,6 @@
 ﻿import { FormBuilder } from "/js/FormBuilder.js";
 class Validator {
+    result = {};
     regexes = {};
     errors = {};
     builder = null;
@@ -28,7 +29,7 @@ class Validator {
         };
     }
     validateForm() {
-        var result = {
+        result = {
             isValid: true,
             errors: {}
         };
@@ -37,21 +38,42 @@ class Validator {
             for (let j in form) {
                 if (k == j) {
                     if (!form[j].match(this.regexes[k])) {
-                        result.errors[j] = this.errors[j] ;
-                        result.isValid = false;
+                        this.result.errors[j] = this.errors[j] ;
+                        this.result.isValid = false;
                     }
                 } else if (k == "password" && j == "passwordAgain") {
                     if (!form[j].match(this.regexes.password) || form.password != form.passwordAgain) {
-                        result.errors["passwordAgain"] =   this.errors.passwordAgain;
-                        result.isValid = false;
+                        this.result.errors["passwordAgain"] =   this.errors.passwordAgain;
+                        this.result.isValid = false;
                     }
                 }
             }
         }
-        return result;
+        return this.result;
     }
     clearForm() {
         this.builder.clearForm();
+    }
+
+    clearResults() {
+        this.result = {
+            isValid: true,
+            errors: {}
+        }
+    }
+    validateValue(value, key) {
+        if (this.regexes[key]) {
+            if (!value.match(this.regexes[key])) {
+                // validation successfull
+                this.result.errors[key] = this.errors[key];
+                this.result.isValid = false;
+            }
+        } else if (key == "newPassword") {
+            if (!value.match(this.regexes.password)) {
+                this.result.errors.newPassword = this.errors.password;
+                this.result.isValid = false;
+            }
+        }
     }
 }
     
