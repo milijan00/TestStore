@@ -27,7 +27,8 @@ namespace TestStore.Implementation.Usecases.Ef.Queries
             {
                 Id = x.Id,
                 Name = x.Name,
-                Action = x.Action
+                Action = x.Action,
+                Controller = x.Controller
             }).ToList();
         }
     }

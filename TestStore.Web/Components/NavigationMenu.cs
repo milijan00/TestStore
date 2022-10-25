@@ -24,6 +24,7 @@ namespace TestStore.Web.ViewComponents
             {
                 data.Username = this._service.Token.Claims.First(x => x.Type == "Username").Value;
                 data.UserId = Int32.Parse(  this._service.Token.Claims.First(x => x.Type == "UserId").Value);
+                data.IsAdmin = this._service.Token.Claims.First(x => x.Type == "Role").Value == "Administrator";
             }
             data.NavLinks = this._context.NavLinks.Select(x => new NavLinkDto
             {

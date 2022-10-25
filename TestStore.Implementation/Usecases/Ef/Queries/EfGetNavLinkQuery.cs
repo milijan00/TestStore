@@ -33,7 +33,8 @@ namespace TestStore.Implementation.Usecases.Ef.Queries
             {
                 Id = navLink.Id,
                 Name = navLink.Name,
-                Action = navLink.Action
+                Action = navLink.Action,
+                Controller = navLink.Controller
             };
         }
     }
