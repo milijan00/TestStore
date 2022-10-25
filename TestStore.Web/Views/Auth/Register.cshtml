@@ -55,18 +55,21 @@
             </section>
         </form>
     </article>
-<div class="toast" role="alert" aria-live="assertive" aria-atomic="true">
-  <div class="toast-header">
-    <strong class="mr-auto" id="toast-title">Bootstrap</strong>
-  </div>
-  <div class="toast-body">
-    Hello, world! This is a toast message.
-  </div>
-</div>
+</section>
+<section class="container mx-auto d-flex justify-content-end align-items-end pt-3">
+    <div class="toast" role="alert" aria-live="assertive" aria-atomic="true">
+      <div class="toast-header">
+        <strong class="mr-auto">Add to cart</strong>
+      </div>
+      <div class="toast-body">
+        Your product has been added to the cart.
+      </div>
+    </div>
 </section>
 
 <script type="module">
     import validation, {Validator} from "/js/validation.js";
+    import {showToast} from "/js/toast.js";
     var validator = new Validator();
     validator.builder.
     addFirstName(firstname)
@@ -80,7 +83,9 @@
         e.preventDefault();
         validation.hideErrorBlocks(["#firstnameError", "#lastnameError", "#usernameError", "#emailError", "#passwordError", "#passwordAgainError"]);
         var result = validator.validateForm();
-        if(result.IsValid){
+        console.log(result.isValid);
+        if(result.isValid){
+            console.log("validacija prosla");
             $.ajax({
                 url : "http://localhost:5257/auth/create",
                 method : "POST",
@@ -93,14 +98,16 @@
                 },
                 success(res, status, xhr){
                     if(xhr.status == 201){
-                       validator.clearForm(); 
-                       $(".toast").toast("show");
-                       $(".toast-body").text("You have been registered successfully!");
-                       $("#toast-title").text("Registration");
                     }
+                       validator.clearForm(); 
+                       showToast();
+                },
+                error(e){
+                    console.log(e);
                 }
             })
         }else {
+            console.log('isValid:', result.isValid);
             validation.displayErrorMessages(result.errors);
             //for(var e in result.errors){
             //    let blockId ="#"+ e + "Error";

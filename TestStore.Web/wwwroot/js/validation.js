@@ -29,7 +29,7 @@ class Validator {
         };
     }
     validateForm() {
-        result = {
+        this.result = {
             isValid: true,
             errors: {}
         };
