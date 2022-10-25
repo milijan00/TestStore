@@ -83,6 +83,13 @@ namespace TestStore.Web.Extensions
             // product specification
             services.AddTransient<ICreateProductSpecificationCommand, EfCreateProductSpecificationCommand>();
             services.AddTransient<IDeleteProductSpecificationCommand, EfDeleteProductSpecificationCommand>();
+
+            // roles
+            services.AddTransient<ICreateRoleCommand, EfCreateRoleCommand>();
+            services.AddTransient<IUpdateRoleCommand, EfUpdateRoleCommand>();
+            services.AddTransient<IDeleteRoleCommand, EfDeleteRoleCommand>();
+            services.AddTransient<IGetRolesQuery, EfGetRolesQuery>();
+            services.AddTransient<IGetRoleQuery, EfGetRoleQuery>();
         }
 
         public static void AddValidators(this IServiceCollection services)
@@ -115,6 +122,10 @@ namespace TestStore.Web.Extensions
 
             services.AddTransient<ProductSpecificationValidator>();
             services.AddTransient<DeleteProductSpecificationValidator>();
+
+
+            services.AddTransient<BaseRoleValidator>();
+            services.AddTransient<UpdateRoleValidator>();
         }
 
         public static void AddJwt(this IServiceCollection services, AppSettings settings)
