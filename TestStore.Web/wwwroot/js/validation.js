@@ -24,6 +24,7 @@ class Validator {
             lastname: /^[A-ZŠĐŽĆČ][a-zšđžćč]{1,14}(\s[A-ZŠĐŽĆČ][a-zšđžćč]{1,14}){0,1}$/,
             username: /^(?=.{3,20}$)[a-zA-Z0-9._]+$/,
             category: /^[A-Z][a-z]{2,19}$/,
+            brand: /^[A-Z][a-z]{2,19}$/,
             route: /^\/[a-z\s]{3,20}$/,
             usecase: /^[A-Za-z]{5,60}$/
         };
