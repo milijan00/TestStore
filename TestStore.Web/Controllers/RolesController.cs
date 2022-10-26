@@ -14,6 +14,10 @@ namespace TestStore.Web.Controllers
         {
             _handler = handler;
         }
+        public IActionResult Create()
+        {
+            return View();
+        }
 
         [HttpGet]
         public IActionResult Get([FromServices] IGetRolesQuery query)

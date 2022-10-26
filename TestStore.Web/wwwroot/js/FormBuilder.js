@@ -7,6 +7,12 @@
     category = undefined;
     passwordAgain = undefined;
     brand = undefined;
+    role = undefined;
+
+     addRole(element) {
+         this.role = element;
+         return this;
+     }
 
     addFirstName(element) {
         this.firstname = element;
@@ -74,6 +80,9 @@
          if (this.brand) {
              values["brand"] = this.brand.value;
          }
+         if (this.role) {
+             values["role"] = this.role.value;
+         }
 
          return values;
      }
@@ -103,6 +112,9 @@
          }
          if (this.brand) {
              this.brand.value = "";
+         }
+         if (this.role) {
+             this.role.value = "";
          }
      }
 }

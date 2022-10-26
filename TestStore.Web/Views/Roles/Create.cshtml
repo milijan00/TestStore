@@ -1,0 +1,66 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+}
+<section class="container mx-auto py-3">
+    <article>
+        <h1>Create a new role.</h1>
+     </article>
+     <article >
+        <form action="#" method="POST" name="createRoleForm">
+            <section class="row">
+                <article class="col-12 mb-3">
+                    <input class="form-control" placeholder="Enter role name" id="roleName"/>
+                    <div id="roleError" class="alert alert-danger my-2 d-none">
+                        <p></p>
+                    </div>
+                </article>
+                <article class="col-12 mb-3">
+                    <input class="btn btn-primary" type="submit" value="Submit" />
+                </article>
+            </section>
+        </form> 
+     </article>
+</section>
+<section class="container mx-auto d-flex justify-content-end align-items-end pt-3">
+    <div class="toast" role="alert" aria-live="assertive" aria-atomic="true">
+      <div class="toast-header">
+        <strong class="mr-auto">Create role</strong>
+      </div>
+      <div class="toast-body">
+         You have created a new role. 
+      </div>
+    </div>
+</section>
+<script type="module">
+    import validation, {Validator} from "/js/validation.js";
+    import {showToast} from "/js/toast.js";
+    const validator = new Validator();
+    validator.builder.addRole(roleName);
+
+    document.createRoleForm.addEventListener("submit", function(e){
+        e.preventDefault();
+        validation.hideErrorBlocks(["#roleError"]);
+        var result = validator.validateForm();
+        if(result.isValid){
+            $.ajax({
+                url : "http://localhost:5257/roles/store",
+                data : {
+                    name : roleName.value
+                },
+                method : "POST",
+                success : function(result){
+                    showToast();
+                    validator.clearForm();
+                },
+                error : function(e){
+                    console.error(e);
+                }
+            })
+        }else {
+            console.log(result.errors);
+            validation.displayErrorMessages(result.errors);
+        }
+    });
+</script>
