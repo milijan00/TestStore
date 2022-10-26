@@ -8,6 +8,24 @@
     passwordAgain = undefined;
     brand = undefined;
     role = undefined;
+     linkName = undefined;
+     action = undefined;
+     controller = undefined;
+
+     addLinkName(el) {
+         this.linkName = el;
+         return this;
+     }
+
+     addAction(el) {
+         this.action = el;
+         return this;
+     }
+
+     addController(el) {
+         this.controller = el;
+         return this;
+     }
 
      addRole(element) {
          this.role = element;
@@ -83,6 +101,15 @@
          if (this.role) {
              values["role"] = this.role.value;
          }
+         if (this.linkName) {
+             values["linkName"] = this.linkName.value;
+         }
+         if (this.action) {
+             values["action"] = this.action.value;
+         }
+         if (this.controller) {
+             values["controller"] = this.controller.value;
+         }
 
          return values;
      }
@@ -115,6 +142,15 @@
          }
          if (this.role) {
              this.role.value = "";
+         }
+         if (this.linkName) {
+             this.linkName.value = "";
+         }
+         if (this.action) {
+             this.action.value = "";
+         }
+         if (this.controller) {
+             this.controller.value = "";
          }
      }
 }

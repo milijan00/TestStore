@@ -16,6 +16,9 @@ class Validator {
             category : "At least 2 characters and maximum is 19." ,
             brand : "At least 2 characters and maximum is 19." ,
             role : "At least 2 characters and maximum is 19." ,
+            action : "At least 2 characters and maximum is 19." ,
+            linkName : "At least 2 characters and maximum is 19." ,
+            controller : "At least 2 characters and maximum is 19." ,
             usecase : "No numbers of special characters. Minimal length is 5 and maximum is 60 characters." 
         };
 		this.regexes = {
@@ -27,7 +30,9 @@ class Validator {
             category: /^[A-Z][a-z]{2,19}$/,
             brand: /^[A-Z][a-z]{2,19}$/,
             role: /^[A-Z][a-z]{2,19}$/,
-            route: /^\/[a-z\s]{3,20}$/,
+            action: /^[A-Z][a-z]{2,19}$/,
+            linkName: /^[A-Z][a-z\s]{2,19}$/,
+            controller: /^[A-Za-z]{2,19}$/,
             usecase: /^[A-Za-z]{5,60}$/
         };
     }
