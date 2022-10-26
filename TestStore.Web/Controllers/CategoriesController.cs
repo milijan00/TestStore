@@ -14,7 +14,8 @@ namespace TestStore.Web.Controllers
         {
             _handler = handler;
         }
-        public IActionResult Index()
+        [HttpGet]
+        public IActionResult Create()
         {
             return View();
         }
