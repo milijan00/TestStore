@@ -18,6 +18,17 @@ namespace TestStore.Web.Controllers
         {
             _handler = handler;
         }
+        public IActionResult Create([FromServices] IGetCategoriesQuery getCategories, [FromServices] IGetBrandsQuery getBrands)
+        {
+            var categories = this._handler.HandleQuery(getCategories);
+            var brands = this._handler.HandleQuery(getBrands);
+
+            return View(new CreateProductsPageDataDto
+            {
+                Categories = categories,
+                Brands = brands
+            });
+        }
         [HttpGet]
         public IActionResult Index(int id, [FromServices] IGetProductQuery query)
         {
@@ -88,7 +99,7 @@ namespace TestStore.Web.Controllers
             }
             return fileName;
         }
-        [HttpPost]
+        [HttpPatch]
         public IActionResult ImageUpload([FromForm] ProductImageDto dto, [FromServices] IUpdateProductCommand command)
         {
                 string fileName = this.UploadImageToServer(dto.Image);

@@ -1,0 +1,153 @@
+﻿@using TestStore.Application.Dto;
+@model CreateProductsPageDataDto;
+@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+}
+<section class="container mx-auto py-3">
+    <article>
+        <h1>Create a new product.</h1>
+     </article>
+     <article >
+        <form action="#" method="POST" name="createProductForm">
+            <section class="row">
+                <article class="col-12 mb-3">
+                    <input class="form-control" placeholder="Enter link name" id="productName"/>
+                    <div id="productNameError" class="alert alert-danger my-2 d-none">
+                        <p></p>
+                    </div>
+                </article>
+                <article class="col-12 mb-3">
+                    <label for="price" class="">Price:</label>
+                    <input type="number" class="form-control"  id="price"/>
+                    <div id="priceError" class="alert alert-danger my-2 d-none">
+                        <p></p>
+                    </div>
+                </article>
+                <article class="col-12 mb-3">
+                    <textarea rows="10" cols="20" class="form-control" placeholder="Decription" id="description"></textarea>
+                    <div id="descriptionError" class="alert alert-danger my-2 d-none">
+                        <p></p>
+                    </div>
+                </article>
+                <article class="col-12 mb-3 ">
+                    <label for="category">Choose a category</label>
+                    <select class="form-control" id="category"> 
+                        @foreach(var c in Model.Categories){
+                            <option value="@c.Id">@c.Name</option>
+                        }
+                    </select>
+                </article>
+                <article class="col-12 mb-3 ">
+                    <label for="category">Choose a brand</label>
+                    <select class="form-control" id="brand"> 
+                        @foreach(var c in Model.Brands){
+                            <option value="@c.Id">@c.Name</option>
+                        }
+                    </select>
+                </article>
+                <article class="col-12 mb-3">
+                    <label>Choose an image</label>
+                    <input type="file" class="form-control" id="imageFile"/>
+                    <div id="fileError" class="alert alert-danger my-2 d-none">
+                        <p></p>
+                    </div>
+                </article>
+                <article class="col-12 mb-3 text-end">
+                    <input class="btn btn-primary" type="submit" value="Submit" />
+                </article>
+            </section>
+        </form> 
+     </article>
+</section>
+<section class="container mx-auto d-flex justify-content-end align-items-end pt-3">
+    <div class="toast" role="alert" aria-live="assertive" aria-atomic="true">
+      <div class="toast-header">
+        <strong class="mr-auto">Create product</strong>
+      </div>
+      <div class="toast-body">
+         You have created a new product. 
+      </div>
+    </div>
+</section>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/axios/1.1.3/axios.min.js" ></script>
+<script type="module">
+    import validation  from "/js/validation.js";
+    import {showToast} from "/js/toast.js";
+    //const validator = new Validator();
+    //validator.builder.addLinkName(productName).addAction(action).addController(price);
+
+    document.createProductForm.addEventListener("submit", function(e){
+        e.preventDefault();
+        validation.hideErrorBlocks(["#productNameError", "#descriptionError", "#priceError", "#fileError"]);
+        //var result = validator.validateForm();
+        var result = {
+            errors : {},
+            isValid : true 
+        };
+        if(!imageFile.files.length > 0){
+            result.errors.file = "Product's image is required.";
+            result.isValid = false;
+        }
+        if(!productName.value){
+            result.errors['productName'] = "Product name is required.";
+            result.isValid = false;
+        }
+        if(!description.value){
+            result.errors["description"] = "Description is required.";
+            result.isValid = false;
+        }
+        if(!price.value || Number(price.value) <= 0){
+            result.errors["price"] = "Price is required.";
+            result.isValid = false;
+        }
+        if(result.isValid){
+            var formData = new FormData(this);
+            formData.append("image", imageFile.files[0]);
+            formData.append("name", productName.value);
+            formData.append("description", description.value);
+            formData.append("price", price.value);
+            formData.append("categoryId", category.value);
+            formData.append("brandId", brand.value);
+            axios.post("http://localhost:5257/products/store", formData)
+            .then(res => {
+                if(res.status == 201){
+                    showToast();
+                }
+            })
+            .catch(e =>{
+                console.error(e);
+            });
+
+            //$.ajax({
+            //    url : "http://localhost:5257/products/store",
+            //    //data : formData,
+            //    processData : false,
+            //    contentType : false,
+            //    type: "post",
+            //    data : {
+            //        //name : productName.value,
+            //        //price : price.value,
+            //        //description : description.value,
+            //        //categoryId : category.value,
+            //        //brandId : brand.value,
+            //        image : imageFile.files[0]
+            //    },
+            //    method : "POST",
+            //    success : function(result){
+            //        showToast();
+            //        productName.value = "";
+            //        price.value = 0;
+            //        description.value = "";
+            //    },
+            //    error : function(e){
+            //        console.error(e);
+            //    }
+            //})
+
+        }else {
+            validation.displayErrorMessages(result.errors);
+        }
+    });
+</script>

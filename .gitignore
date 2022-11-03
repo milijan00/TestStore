@@ -4,6 +4,7 @@ TestResults
 TestStore.Implementation/bin
 TestStore.Tests/bin
 TestStore.Web/bin
+TestStore.Web/wwwroot/images
 TestStore.Web/obj
 TestStore.Tests/obj
 TestStore.Implementation/obj
