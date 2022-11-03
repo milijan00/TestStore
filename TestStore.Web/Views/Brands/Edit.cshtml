@@ -1,21 +1,19 @@
 ﻿@using TestStore.Application.Dto;
-@model CategoryDto;
+@model BrandDto;
 @*
     For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 *@
-@{
-}
 <section class="container mx-auto py-3">
     <article>
-        <h1>Edit a new category.</h1>
+        <h1>Edit a new brand.</h1>
      </article>
      <article >
-        <form action="#" method="POST" name="updateCategoryForm">
+        <form action="#" method="POST" name="updateBrandForm">
             <section class="row">
-                <input type="hidden" value="@Model.Id" id="categoryId"/>
+                <input type="hidden" value="@Model.Id" id="brandId"/>
                 <article class="col-12 mb-3">
-                    <input class="form-control" placeholder="Enter category name" id="categoryName" value="@Model.Name"/>
-                    <div id="categoryError" class="alert alert-danger my-2 d-none">
+                    <input class="form-control" placeholder="Enter brand name" id="brandName" value="@Model.Name"/>
+                    <div id="brandError" class="alert alert-danger my-2 d-none">
                         <p></p>
                     </div>
                 </article>
@@ -29,10 +27,10 @@
 <section class="container mx-auto d-flex justify-content-end align-items-end pt-3">
     <div class="toast" role="alert" aria-live="assertive" aria-atomic="true">
       <div class="toast-header">
-        <strong class="mr-auto">Edit category</strong>
+        <strong class="mr-auto">Edit brand</strong>
       </div>
       <div class="toast-body">
-         You have edited a new category. 
+         You have edited a new brand. 
       </div>
     </div>
 </section>
@@ -40,18 +38,18 @@
     import validation, {Validator} from "/js/validation.js";
     import {showToast} from "/js/toast.js";
     const validator = new Validator();
-    validator.builder.addCategory(categoryName);
+    validator.builder.addBrand(brandName);
 
-    document.updateCategoryForm.addEventListener("submit", function(e){
+    document.updateBrandForm.addEventListener("submit", function(e){
         e.preventDefault();
-        validation.hideErrorBlocks(["#categoryError"]);
+        validation.hideErrorBlocks(["#brandError"]);
         var result = validator.validateForm();
         if(result.isValid){
             $.ajax({
-                url : "http://localhost:5257/categories/update",
+                url : "http://localhost:5257/brands/update",
                 data : {
-                    name : categoryName.value,
-                    id : categoryId.value
+                    name : brandName.value,
+                    id : brandId.value
                 },
                 method : "PUT",
                 success : function(result){

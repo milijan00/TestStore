@@ -19,6 +19,12 @@ namespace TestStore.Web.Controllers
             return View();
         }
         [HttpGet]
+        public IActionResult Edit(int id, [FromServices] IGetBrandQuery query)
+        {
+            var brand = this._handler.HandleQuery(query, id);
+            return View(brand);
+        }
+        [HttpGet]
         public IActionResult Get([FromServices] IGetBrandsQuery query)
         {
                 var result = this._handler.HandleQuery(query);
