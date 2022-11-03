@@ -1,0 +1,125 @@
+﻿@using TestStore.Application.Dto;
+@model NavLinkDto;
+@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+}
+<section class="container mx-auto py-3">
+    <article>
+        <h1>Edit a new navigation link.</h1>
+     </article>
+     <article >
+        <form action="#" method="POST" name="updateNavLinkForm">
+            <section class="row">
+                <input type="hidden" value="@Model.Id" id="navlinkId"/>
+                <article class="col-12 mb-3">
+                    <input class="form-control" placeholder="Enter link name" value="@Model.Name" id="linkName"/>
+                    <div id="linkNameError" class="alert alert-danger my-2 d-none">
+                        <p></p>
+                    </div>
+                </article>
+                <article class="col-12 mb-3">
+                    <input class="form-control" placeholder="Enter controller name" value="@Model.Controller" id="controller"/>
+                    <div id="controllerError" class="alert alert-danger my-2 d-none">
+                        <p></p>
+                    </div>
+                </article>
+                <article class="col-12 mb-3">
+                    <input class="form-control" placeholder="Enter action name" value="@Model.Action" id="action"/>
+                    <div id="actionError" class="alert alert-danger my-2 d-none">
+                        <p></p>
+                    </div>
+                </article>
+                <article class="col-12 mb-3">
+                    <input class="btn btn-primary" type="submit" value="Submit" />
+                </article>
+            </section>
+        </form> 
+     </article>
+</section>
+<section class="container mx-auto d-flex justify-content-end align-items-end pt-3">
+    <div class="toast" role="alert" aria-live="assertive" aria-atomic="true">
+      <div class="toast-header">
+        <strong class="mr-auto">Edit navigation link</strong>
+      </div>
+      <div class="toast-body">
+         You have edited a new navigation link. 
+      </div>
+    </div>
+</section>
+<script type="module">
+    import validation, {Validator} from "/js/validation.js";
+    import {showToast} from "/js/toast.js";
+    const validator = new Validator();
+    validator.builder.addLinkName(linkName).addAction(action).addController(controller);
+
+    let initial = getFormData();
+
+
+
+    document.updateNavLinkForm.addEventListener("submit", function(e){
+        e.preventDefault();
+        validation.hideErrorBlocks(["#linkNameError", "#actionError", "#controllerError"]);
+        validator.clearResults();
+        let editedValues = getEditedValues();
+        
+        var result = {
+            errors : {},
+            isValid : true
+        };
+        if(editedValues.name){
+            validator.validateValue(editedValues.name, "link");
+        }
+
+        if(editedValues.controller){
+            validator.validateValue(editedValues.controller, "controller");
+        }
+
+        if(editedValues.action){
+            validator.validateValue(editedValues.action, "action");
+        }
+
+        if(result.isValid && Object.keys(editedValues).length){
+            editedValues.id = navlinkId.value;
+            $.ajax({
+                url : "http://localhost:5257/navlinks/update",
+                data : editedValues,
+                method : "PATCH",
+                success : function(result){
+                    showToast();
+                    initial = getFormData();
+                },
+                error : function(e){
+                    console.error(e);
+                }
+            })
+        }else {
+            validation.displayErrorMessages(result.errors);
+        }
+    });
+
+    function getFormData(){
+        return {
+            name : linkName.value,
+            controller : controller.value,
+            action : action.value
+        };
+    }
+
+    const getEditedValues = ()=>{
+        let editedValues = {};
+
+        if(initial.name != linkName.value){
+            editedValues.name = linkName.value;
+        }
+        if(initial.controller != controller.value){
+            editedValues.controller = controller.value;
+        }
+        if(initial.action != action.value){
+            editedValues.action = action.value;
+        }
+
+        return editedValues;
+    };
+</script>

@@ -22,6 +22,12 @@ namespace TestStore.Web.Controllers
             return View();
         }
         [HttpGet]
+        public IActionResult Edit(int id, [FromServices] IGetNavLinkQuery query)
+        {
+            var link = this._handler.HandleQuery(query, id);
+            return View(link);
+        }
+        [HttpGet]
         public IActionResult Get([FromServices] IGetNavLinksQuery query)
         {
                 return Ok(this._handler.HandleQuery(query));
