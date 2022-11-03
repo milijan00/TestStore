@@ -21,6 +21,12 @@ namespace TestStore.Web.Controllers
         }
 
         [HttpGet]
+        public IActionResult Create()
+        {
+            return View();
+        }
+
+        [HttpGet]
         public IActionResult Get([FromServices] IGetSpecificationsQuery query)
         {
             var result = this._handler.HandleQuery(query);
