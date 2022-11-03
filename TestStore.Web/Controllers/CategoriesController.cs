@@ -21,6 +21,13 @@ namespace TestStore.Web.Controllers
         }
 
         [HttpGet]
+        public IActionResult Edit(int id, [FromServices] IGetCategoryQuery query)
+        {
+            var category = this._handler.HandleQuery(query, id);
+            return View(category);
+        }
+
+        [HttpGet]
         public IActionResult Get([FromServices] IGetCategoriesQuery query)
         {
                 var result = this._handler.HandleQuery(query);
