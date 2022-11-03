@@ -18,6 +18,12 @@ namespace TestStore.Web.Controllers
         {
             return View();
         }
+        [HttpGet]
+        public IActionResult Edit(int id, [FromServices] IGetRoleQuery query)
+        {
+            var role = this._handler.HandleQuery(query, id);
+            return View(role);
+        }
 
         [HttpGet]
         public IActionResult Get([FromServices] IGetRolesQuery query)
