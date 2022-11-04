@@ -11,6 +11,12 @@
      linkName = undefined;
      action = undefined;
      controller = undefined;
+     specification = undefined;
+
+     addSpecification(el) {
+         this.specification = el;
+         return this;
+     }
 
      addLinkName(el) {
          this.linkName = el;
@@ -110,6 +116,9 @@
          if (this.controller) {
              values["controller"] = this.controller.value;
          }
+         if (this.specification) {
+             values['specification'] = this.specification.value;
+         }
 
          return values;
      }
@@ -151,6 +160,9 @@
          }
          if (this.controller) {
              this.controller.value = "";
+         }
+         if (this.specification) {
+             this.specification.value = "";
          }
      }
 }

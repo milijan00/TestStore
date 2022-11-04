@@ -16,6 +16,9 @@ namespace TestStore.Implementation.Validators
                 .Cascade(CascadeMode.Stop)
                 .NotNull().WithMessage("Specification's id must not be null.")
                 .Must(id => context.Specifications.Any(x => x.Id == id)).WithMessage("There is no given specification.");
+
+
+                
         }
     }
 }

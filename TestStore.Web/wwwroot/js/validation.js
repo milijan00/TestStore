@@ -19,7 +19,8 @@ class Validator {
             action : "At least 2 characters and maximum is 19." ,
             linkName : "At least 2 characters and maximum is 19." ,
             controller : "At least 2 characters and maximum is 19." ,
-            usecase : "No numbers of special characters. Minimal length is 5 and maximum is 60 characters." 
+            usecase: "No numbers of special characters. Minimal length is 5 and maximum is 60 characters.",
+            specification: "Maximum length is 30, minimal is 3."
         };
 		this.regexes = {
             email: /^(?=.{5,100}$)[a-zA-ZšđžćčŠĐŽĆČ0-9.!#$%&'*+/=? ^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/,
@@ -33,7 +34,8 @@ class Validator {
             action: /^[A-Z][a-z]{2,19}$/,
             linkName: /^[A-Z][a-z\s]{2,19}$/,
             controller: /^[A-Za-z]{2,19}$/,
-            usecase: /^[A-Za-z]{5,60}$/
+            usecase: /^[A-Za-z]{5,60}$/,
+            specification: /^[A-Z][a-z\s-\/_]{2,19}$/
         };
     }
     validateForm() {

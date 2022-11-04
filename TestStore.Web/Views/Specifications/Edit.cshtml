@@ -1,17 +1,20 @@
-﻿@*
+﻿@using TestStore.Application.Dto;
+@model SpecificationDto;
+@*
     For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 *@
 @{
 }
 <section class="container mx-auto py-3">
     <article>
-        <h1>Create a new specification.</h1>
+        <h1>Edit a  specification.</h1>
      </article>
      <article >
-        <form action="#" method="POST" name="createSpecificationForm">
+        <form action="#" method="POST" name="updateSpecificationForm">
             <section class="row">
                 <article class="col-12 mb-3">
-                    <input class="form-control" placeholder="Enter specification name" id="specificationName"/>
+                    <input type="hidden" value="@Model.Id" id="specificationId"/>
+                    <input class="form-control" placeholder="Enter specification name" value="@Model.Name" id="specificationName"/>
                     <div id="specificationError" class="alert alert-danger my-2 d-none">
                         <p></p>
                     </div>
@@ -26,10 +29,10 @@
 <section class="container mx-auto d-flex justify-content-end align-items-end pt-3">
     <div class="toast" specification="alert" aria-live="assertive" aria-atomic="true">
       <div class="toast-header">
-        <strong class="mr-auto">Create specification</strong>
+        <strong class="mr-auto">Edit specification</strong>
       </div>
       <div class="toast-body">
-         You have created a new specification. 
+         You have edited a  specification. 
       </div>
     </div>
 </section>
@@ -39,27 +42,26 @@
     const validator = new Validator();
     validator.builder.addSpecification(specificationName);
 
-    document.createSpecificationForm.addEventListener("submit", function(e){
+    document.updateSpecificationForm.addEventListener("submit", function(e){
         e.preventDefault();
         validation.hideErrorBlocks(["#specificationError"]);
         var result = validator.validateForm();
         if(result.isValid){
             $.ajax({
-                url : "http://localhost:5257/specifications/store",
+                url : "http://localhost:5257/specifications/update",
                 data : {
-                    name : specificationName.value
+                    name : specificationName.value,
+                    id : specificationId.value
                 },
-                method : "POST",
+                method : "PUT",
                 success : function(result){
                     showToast();
-                    validator.clearForm();
                 },
                 error : function(e){
                     console.error(e);
                 }
             })
         }else {
-            console.log(result.errors);
             validation.displayErrorMessages(result.errors);
         }
     });
