@@ -31,6 +31,12 @@ namespace TestStore.Web.Controllers
             this._handler.HandleCommand(command, dto);
             return StatusCode(201);
         }
+        [HttpGet]
+        public IActionResult Create([FromServices] IGetSpecificationsQuery query)
+        {
+            var specifications = this._handler.HandleQuery(query);
+            return View(specifications);
+        }
 
         [HttpPut]
         public IActionResult Update([FromForm] SpecificationValueDto dto, [FromServices] IUpdateSpecificationValueCommand command)
