@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.EntityFrameworkCore;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -24,7 +25,7 @@ namespace TestStore.Implementation.Usecases.Ef.Queries
 
         public IEnumerable<SpecificationValueDto> Execute(int data)
         {
-            var specificationValues = this.Context.SpecificationsValues.Where(x => x.SpecificationId == data).ToList();
+            var specificationValues = this.Context.SpecificationsValues.Include(x => x.Specification).Where(x => x.SpecificationId == data).ToList();
             if(specificationValues.Count == 0)
             {
                 throw new EntityNotFoundException();
@@ -32,7 +33,8 @@ namespace TestStore.Implementation.Usecases.Ef.Queries
             return specificationValues.Select(x => new SpecificationValueDto
             {
                 SpecificationId = x.SpecificationId,
-                Value = x.Value
+                Value = x.Value,
+                SpecificationName = x.Specification.Name
             }).ToList();
         }
     }

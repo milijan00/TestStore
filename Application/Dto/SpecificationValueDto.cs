@@ -11,6 +11,7 @@ namespace TestStore.Application.Dto
         public int? SpecificationId { get; set; }
         public string  Value { get; set; }
         public string NewValue { get; set; }
+        public string SpecificationName { get; set; }
     }
 
 }

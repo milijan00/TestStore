@@ -30,7 +30,8 @@
             new Table("Categories' management", "categories"),
             new Table("Navigation links' management", "navlinks"),
             new Table("Roles' management", "roles"),
-            new Table("Specifications management", "specifications")
+            new Table("Specifications management", "specifications"),
+            new Table("Specifications values management", "specificationvalue")
         ];
         var selectedTable = null;
         displayTableButtons();
@@ -75,7 +76,9 @@
                 "id",
                 "specifications",
                 "categoryId",
-                "brandId"
+                "brandId",
+                "specificationId",
+                "newValue"
 
             ];
             function displayData(data){

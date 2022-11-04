@@ -79,6 +79,7 @@ namespace TestStore.Web.Extensions
             services.AddTransient<IUpdateSpecificationValueCommand, EfUpdateSpecificationValueCommand>();
             services.AddTransient<IDeleteSpecificationValueCommand, EfDeleteSpecificationValueCommand>();
             services.AddTransient<IGetSpecificationValuesQuery, EfGetSpecificationValuesQuery>();
+            services.AddTransient<IGetAllSpecificationsValuesQuery, EfGetAllSpecificationsValuesQuery>();
 
             // product specification
             services.AddTransient<ICreateProductSpecificationCommand, EfCreateProductSpecificationCommand>();

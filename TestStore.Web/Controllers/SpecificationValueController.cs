@@ -15,7 +15,12 @@ namespace TestStore.Web.Controllers
             _handler = handler;
         }
         [HttpGet]
-        public IActionResult Get(int id, [FromServices] IGetSpecificationValuesQuery query)
+        public IActionResult Get([FromServices] IGetAllSpecificationsValuesQuery query)
+        {
+            return Ok(this._handler.HandleQuery(query));
+        }
+        [HttpGet]
+        public IActionResult Find(int id, [FromServices] IGetSpecificationValuesQuery query)
         {
             return Ok(this._handler.HandleQuery(query, id));
         }
