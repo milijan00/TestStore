@@ -57,7 +57,7 @@ namespace TestStore.Web.Controllers
         }
 
         [HttpDelete]
-        public IActionResult Delete ([FromForm] SpecificationValueDto dto, [FromServices] IDeleteSpecificationValueCommand command)
+        public IActionResult Delete ([FromQuery] SpecificationValueDto dto, [FromServices] IDeleteSpecificationValueCommand command)
         {
             this._handler.HandleCommand(command, dto);
             return NoContent();
