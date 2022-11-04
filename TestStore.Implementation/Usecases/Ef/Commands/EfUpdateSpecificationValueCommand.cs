@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using TestStore.Application.Dto;
 using TestStore.Application.Usecases.Commands;
+using TestStore.Domain;
 using TestStore.Implementation.DataAccess;
 using TestStore.Implementation.Exceptions;
 using TestStore.Implementation.Validators;
@@ -32,8 +33,14 @@ namespace TestStore.Implementation.Usecases.Ef.Commands
             {
                 throw new UnprocessableEntityException(result.Errors);
             }
-            var specificationValue = this.Context.SpecificationsValues.FirstOrDefault(x => x.SpecificationId == data.SpecificationId.Value);
-            specificationValue.Value = data.NewValue;
+            var specificationValue = this.Context.SpecificationsValues.FirstOrDefault(x => x.SpecificationId == data.SpecificationId.Value && x.Value == data.Value);
+            this.Context.SpecificationsValues.Remove(specificationValue);
+            var newSpecificationValue = new SpecificationValue()
+            {
+                SpecificationId = data.SpecificationId.Value,
+                Value = data.NewValue
+            };
+            this.Context.SpecificationsValues.Add(newSpecificationValue);
             this.Context.SaveChanges();
         }
     }

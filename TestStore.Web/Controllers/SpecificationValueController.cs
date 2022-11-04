@@ -25,6 +25,17 @@ namespace TestStore.Web.Controllers
             return Ok(this._handler.HandleQuery(query, id));
         }
 
+        [HttpGet]
+         public IActionResult Edit([FromQuery] SpecificationValueDto dto, [FromServices] IGetSpecificationsQuery query)
+        {
+            var specifications = this._handler.HandleQuery(query);
+            var data = new EditSpecficationValueDto
+            {
+                Dto = dto,
+                Specifications = specifications
+            };
+            return View(data);
+        }
         [HttpPost]
         public IActionResult Store([FromForm] SpecificationValueDto dto, [FromServices] ICreateSpecificationValueCommand command)
         {
