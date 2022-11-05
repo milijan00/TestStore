@@ -30,12 +30,24 @@ namespace TestStore.Web.Controllers
             });
         }
         [HttpGet]
-        public IActionResult Index(int id, [FromServices] IGetProductQuery query)
+        public IActionResult Index(int id, [FromServices] IGetProductQuery query )
         {
             var product = this._handler.HandleQuery(query, id);
             return View(product);
         }
-
+        [HttpGet]
+        public IActionResult Edit(int id, [FromServices] IGetProductQuery query, [FromServices] IGetCategoriesQuery getCategories, [FromServices] IGetBrandsQuery getBrands)
+        {
+            var categories = this._handler.HandleQuery(getCategories);
+            var brands = this._handler.HandleQuery(getBrands);
+            var product = this._handler.HandleQuery(query, id);
+            return View(new UpdateProductsPageDataDto
+            {
+                Categories = categories,
+                Brands = brands,
+                Product = product 
+            });
+        }
         [HttpGet]
         public IActionResult Get([FromServices] IGetProductsQuery query, [FromQuery] SearchProductsDto dto)
         {
@@ -74,7 +86,7 @@ namespace TestStore.Web.Controllers
                     dto.ImageName = fileName;
                 }
                 this._handler.HandleCommand(command, dto);
-                return StatusCode(201);
+                return StatusCode(204);
         }
         private string UploadImageToServer(IFormFile ImageToUlooad)
         {

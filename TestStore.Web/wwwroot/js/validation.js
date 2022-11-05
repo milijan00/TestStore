@@ -77,12 +77,16 @@ class Validator {
                 // validation successfull
                 this.result.errors[key] = this.errors[key];
                 this.result.isValid = false;
+                return false;
             }
+            return true;
         } else if (key == "newPassword") {
             if (!value.match(this.regexes.password)) {
                 this.result.errors.newPassword = this.errors.password;
                 this.result.isValid = false;
+                return false;
             }
+            return true;
         }
     }
 }

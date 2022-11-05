@@ -11,4 +11,8 @@ namespace TestStore.Application.Dto
         public IEnumerable<CategoryDto> Categories { get; set; }
         public IEnumerable<BrandDto> Brands { get; set; }
     }
+    public class UpdateProductsPageDataDto: CreateProductsPageDataDto
+    {
+        public ProductDto Product { get; set; }
+    }
 }
