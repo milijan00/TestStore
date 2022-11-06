@@ -36,16 +36,18 @@ namespace TestStore.Web.Controllers
             return View(product);
         }
         [HttpGet]
-        public IActionResult Edit(int id, [FromServices] IGetProductQuery query, [FromServices] IGetCategoriesQuery getCategories, [FromServices] IGetBrandsQuery getBrands)
+        public IActionResult Edit(int id, [FromServices] IGetProductQuery query, [FromServices] IGetCategoriesQuery getCategories, [FromServices] IGetBrandsQuery getBrands, [FromServices] IGetAllSpecificationsValuesQuery getAllSpecifications)
         {
             var categories = this._handler.HandleQuery(getCategories);
             var brands = this._handler.HandleQuery(getBrands);
             var product = this._handler.HandleQuery(query, id);
+            var specificationsValues = this._handler.HandleQuery(getAllSpecifications);
             return View(new UpdateProductsPageDataDto
             {
                 Categories = categories,
                 Brands = brands,
-                Product = product 
+                Product = product ,
+                SpecificationsValues = specificationsValues
             });
         }
         [HttpGet]

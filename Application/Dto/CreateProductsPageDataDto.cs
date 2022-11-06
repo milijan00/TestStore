@@ -14,5 +14,6 @@ namespace TestStore.Application.Dto
     public class UpdateProductsPageDataDto: CreateProductsPageDataDto
     {
         public ProductDto Product { get; set; }
+        public IEnumerable<SpecificationValueDto> SpecificationsValues { get; set; }
     }
 }

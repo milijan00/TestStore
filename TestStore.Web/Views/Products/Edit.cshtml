@@ -63,9 +63,43 @@
                         <p></p>
                     </div>
                 </article>
+                <article class="mb-3">
+                    <h3>Specifications</h3>
+                </article>
+                <section class="col-12 mb-3 row">
+                    <article class="col-12 col-md-10">
+                        <select id="specification" class="form-control">
+                            @foreach(var s in Model.SpecificationsValues){
+                                <option value="@s.SpecificationName!@s.Value">@s.SpecificationName - @s.Value</option>
+                            }
+                        </select>
+                    </article>
+                    <article class="col-12 col-md-2 text-end">
+                        <input type="button" value="Add" class="btn btn-primary" id="addSpecificationButton"/>
+                    </article>
+                </section>
+                @if(Model.Product.Specifications.Count() > 0){
+                <article class="col-12 mb-3">
+                    <table class="table table-striped">
+                        <tbody>
+                           @foreach(var s in Model.Product.Specifications) {
+                               <tr>
+                                   <td>@s.Name</td>
+                                   <td>@s.Value</td>
+                                   <td width="10%"><input type="button" class="btn btn-danger" value="Remove" /></td>
+                               </tr>
+                           }
+                        </tbody>
+                    </table>
+                </article>
                 <article class="col-12 mb-3 text-end">
                     <input class="btn btn-primary" type="submit" value="Submit" />
                 </article>
+                }else {
+                    <article class="mb-3 ">
+                        <h3>There are no specifications at the moment.</h3>
+                    </article>
+                }
             </section>
         </form> 
      </article>
