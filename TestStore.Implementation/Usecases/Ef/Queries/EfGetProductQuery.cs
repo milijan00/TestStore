@@ -47,6 +47,7 @@ namespace TestStore.Implementation.Usecases.Ef.Queries
                 ImageName = product.Image,
                 Specifications = product.Specifications.Select(x => new ProductsSpecificationDto
                 {
+                    SpecificationId = x.SpecificationId,
                     Name = x.Specification.Name,
                     Value = x.Specification.SpecificationValues.First().Value
                 })

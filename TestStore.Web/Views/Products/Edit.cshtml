@@ -78,28 +78,28 @@
                         <input type="button" value="Add" class="btn btn-primary" id="addSpecificationButton"/>
                     </article>
                 </section>
+                <article class="col-12 mb-3" id="specificationsContent">
                 @if(Model.Product.Specifications.Count() > 0){
-                <article class="col-12 mb-3">
                     <table class="table table-striped">
                         <tbody>
                            @foreach(var s in Model.Product.Specifications) {
                                <tr>
                                    <td>@s.Name</td>
                                    <td>@s.Value</td>
-                                   <td width="10%"><input type="button" class="btn btn-danger" value="Remove" /></td>
+                                   <td width="10%"><a type="button" class="btn btn-danger remove-specification-value"  data-specificationId="@s.SpecificationId" data-productId="@Model.Product.Id" href="#">Remove</a></td>
                                </tr>
                            }
                         </tbody>
                     </table>
+                    }else {
+                        <article class="mb-3 ">
+                            <h3>There are no specifications at the moment.</h3>
+                        </article>
+                    }
                 </article>
                 <article class="col-12 mb-3 text-end">
                     <input class="btn btn-primary" type="submit" value="Submit" />
                 </article>
-                }else {
-                    <article class="mb-3 ">
-                        <h3>There are no specifications at the moment.</h3>
-                    </article>
-                }
             </section>
         </form> 
      </article>
@@ -204,4 +204,60 @@
 
         return edited;
     }
+
+    const addEventListenerToRemoveButtons = ()=>{
+        $(".remove-specification-value").click(function(e){
+            e.preventDefault();
+            // prodict id, specification name, specification value
+            const data = {
+                specificationId : this.getAttribute("data-specificationId"),
+                productId : this.getAttribute("data-productId")
+            };
+
+            $.ajax({
+                url : "http://localhost:5257/products/removespecification?specificationId=" + data.specificationId + "&productId=" + data.productId,
+                method : "DELETE",
+                success(result){
+                    // ovde treba poslati zahtev za dohvatanje specifikacija
+                    displaySpecificationsValues(result);
+                },
+                error(e){
+                    console.error(e);
+                }
+            })
+        });
+    };
+
+    function displaySpecificationsValues( elements){
+
+        if(elements == null || elements.length == 0){
+            return `
+                <h3>There are no specifications for this product at the moment.</h3> 
+            `;
+        }
+        let html = `
+            <table class="table table-striped">
+                <tbody>
+        `;
+
+        for(let s of elements){
+            html += `
+               <tr>
+                   <td>${s.name}</td>
+                   <td>${s.value}</td>
+                   <td width="10%"><input type="button" class="btn btn-danger remove-specification-value" data-specificationId="${s.specificationId}" data-productId="${productId.value}" value="Remove" /></td>
+               </tr>
+            `;
+        }
+
+        html += `
+                        </tbody>
+                    </table>
+        `;
+
+        $("#specificationsContent").html(html);
+        addEventListenerToRemoveButtons();
+    }
+    addEventListenerToRemoveButtons();   
+
 </script>

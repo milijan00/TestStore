@@ -136,5 +136,13 @@ namespace TestStore.Web.Controllers
                 return new int[] { image.Width, image.Height};
             }
         }
+
+        [HttpDelete]
+        public IActionResult RemoveSpecification([FromQuery] RemoveSpecificationDto dto, [FromServices] IDeleteSpecificationValueFromProductsCollectionCommand command, [FromServices] IGetProductsSpecificationsQuery query)
+        {
+            this._handler.HandleCommand(command, dto);
+
+            return Ok(this._handler.HandleQuery(query, dto.ProductId));
+        }
     }
 }
