@@ -70,7 +70,7 @@
                     <article class="col-12 col-md-10">
                         <select id="specification" class="form-control">
                             @foreach(var s in Model.SpecificationsValues){
-                                <option value="@s.SpecificationName!@s.Value">@s.SpecificationName - @s.Value</option>
+                                <option value="@s.SpecificationId">@s.SpecificationName - @s.Value</option>
                             }
                         </select>
                     </article>
@@ -137,7 +137,6 @@
         validation.hideErrorBlocks(["#productNameError", "#descriptionError", "#priceError", "#fileError"]);
         validator.clearResults();
         const editedValues = getEditedValues();
-        console.log(editedValues);
         var formData = new FormData(this);
         //validation
         if(imageFile.files.length > 0){
@@ -205,6 +204,25 @@
         return edited;
     }
 
+    addSpecificationButton.addEventListener("click", function(e){
+        e.preventDefault();
+        $.ajax({
+            url : "http://localhost:5257/products/addspecification",
+            data : {
+                productId : productId.value,
+                specificationId : specification.value
+            },
+            method : "POST",
+            success(result){
+                displaySpecificationsValues(result);
+            },
+            error(xhr, status, error){
+                if(xhr.status == 422){
+                    alert(xhr.responseJSON[0].errorMessage);
+                }
+            }
+        });
+    });
     const addEventListenerToRemoveButtons = ()=>{
         $(".remove-specification-value").click(function(e){
             e.preventDefault();

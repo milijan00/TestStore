@@ -144,5 +144,12 @@ namespace TestStore.Web.Controllers
 
             return Ok(this._handler.HandleQuery(query, dto.ProductId));
         }
+
+        [HttpPost]
+        public IActionResult AddSpecification([FromForm] ProductsSpecificationDto dto, [FromServices] IUpdateProductSpecfiicationCommand command, [FromServices] IGetProductsSpecificationsQuery query)
+        {
+            this._handler.HandleCommand(command, dto);
+            return Ok(this._handler.HandleQuery(query, dto.ProductId));
+        }
     }
 }

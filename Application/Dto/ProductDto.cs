@@ -26,6 +26,7 @@ namespace TestStore.Application.Dto
         public int SpecificationId { get; set; }
         public string Name { get; set; }
         public string Value { get; set; }
+        public int ProductId { get; set; }
     }
     public class ProductWithImageDto : ProductDto
     {
