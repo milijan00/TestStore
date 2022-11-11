@@ -10,21 +10,31 @@ namespace TestStore.Web.Controllers
     public class CategoriesController : Controller
     {
         private UsecaseHandler _handler;
-        public CategoriesController(UsecaseHandler handler)
+        private Core.AuthService _service;
+        public CategoriesController(UsecaseHandler handler, Core.AuthService service)
         {
             _handler = handler;
+            _service = service;
         }
         [HttpGet]
         public IActionResult Create()
         {
-            return View();
+            if (this._service.Authenticated)
+            {
+                return View();
+            }
+            return RedirectToAction("Index", "Auth");
         }
 
         [HttpGet]
         public IActionResult Edit(int id, [FromServices] IGetCategoryQuery query)
         {
-            var category = this._handler.HandleQuery(query, id);
-            return View(category);
+            if (this._service.Authenticated)
+            {
+                var category = this._handler.HandleQuery(query, id);
+                return View(category);
+            }
+            return RedirectToAction("Index", "Auth");
         }
 
         [HttpGet]
@@ -37,29 +47,45 @@ namespace TestStore.Web.Controllers
         [HttpGet]
         public IActionResult Find(int id, [FromServices] IGetCategoryQuery query)
         {
+            if (this._service.Authenticated)
+            {
                 var result = this._handler.HandleQuery(query, id);
                 return Ok(result);
+            }
+            return RedirectToAction("Index", "Auth");
         }
 
         [HttpPost]
         public IActionResult Store([FromForm] CategoryDto dto, [FromServices] ICreateCategoryCommand command)
         {
+            if (this._service.Authenticated)
+            {
                 this._handler.HandleCommand(command, dto);
                 return StatusCode(201);
+            }
+            return RedirectToAction("Index", "Auth");
         }
 
         [HttpPut]
         public IActionResult Update([FromForm] CategoryDto dto, [FromServices] IUpdateCategoryCommand command)
         {
+            if (this._service.Authenticated)
+            {
                 this._handler.HandleCommand(command, dto);
                 return NoContent();
+            }
+            return RedirectToAction("Index", "Auth");
         }
 
         [HttpDelete]
         public IActionResult Delete(int id, [FromServices] IDeleteCategoryCommand command)
         {
+            if (this._service.Authenticated)
+            {
                 this._handler.HandleCommand(command, id);
                 return NoContent();
+            }
+            return RedirectToAction("Index", "Auth");
         }
     }
 }

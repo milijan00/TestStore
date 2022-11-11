@@ -14,10 +14,6 @@ namespace TestStore.Web.Controllers
         {
             this._handler = handler;
         }
-        public IActionResult Index()
-        {
-            return View();
-        }
         [HttpGet]
         public IActionResult Get([FromServices] IGetUsecasesQuery query)
         {

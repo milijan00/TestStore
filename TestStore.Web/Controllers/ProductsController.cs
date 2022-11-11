@@ -7,6 +7,7 @@ using TestStore.Implementation.Usecases;
 using TestStore.Implementation.Exceptions;
 using TestStore.Application.Usecases.Queries;
 using TestStore.Application.Dto.searches;
+using TestStore.Web.Core;
 
 namespace TestStore.Web.Controllers
 {
@@ -14,20 +15,27 @@ namespace TestStore.Web.Controllers
     {
         private UsecaseHandler _handler;
         private List<string> extensions = new List<string>() { ".jpeg", ".jpg", ".png" };
-        public ProductsController(UsecaseHandler handler)
+        private AuthService _service;
+        public ProductsController(UsecaseHandler handler, AuthService service)
         {
             _handler = handler;
+            _service = service;
         }
         public IActionResult Create([FromServices] IGetCategoriesQuery getCategories, [FromServices] IGetBrandsQuery getBrands)
         {
-            var categories = this._handler.HandleQuery(getCategories);
-            var brands = this._handler.HandleQuery(getBrands);
-
-            return View(new CreateProductsPageDataDto
+            if (this._service.Authenticated)
             {
-                Categories = categories,
-                Brands = brands
-            });
+                var categories = this._handler.HandleQuery(getCategories);
+                var brands = this._handler.HandleQuery(getBrands);
+
+                return View(new CreateProductsPageDataDto
+                {
+                    Categories = categories,
+                    Brands = brands
+                });
+            }
+            return RedirectToAction("Index", "Auth");
+
         }
         [HttpGet]
         public IActionResult Index(int id, [FromServices] IGetProductQuery query )
@@ -38,17 +46,21 @@ namespace TestStore.Web.Controllers
         [HttpGet]
         public IActionResult Edit(int id, [FromServices] IGetProductQuery query, [FromServices] IGetCategoriesQuery getCategories, [FromServices] IGetBrandsQuery getBrands, [FromServices] IGetAllSpecificationsValuesQuery getAllSpecifications)
         {
-            var categories = this._handler.HandleQuery(getCategories);
-            var brands = this._handler.HandleQuery(getBrands);
-            var product = this._handler.HandleQuery(query, id);
-            var specificationsValues = this._handler.HandleQuery(getAllSpecifications);
-            return View(new UpdateProductsPageDataDto
+            if (this._service.Authenticated)
             {
-                Categories = categories,
-                Brands = brands,
-                Product = product ,
-                SpecificationsValues = specificationsValues
-            });
+                var categories = this._handler.HandleQuery(getCategories);
+                var brands = this._handler.HandleQuery(getBrands);
+                var product = this._handler.HandleQuery(query, id);
+                var specificationsValues = this._handler.HandleQuery(getAllSpecifications);
+                return View(new UpdateProductsPageDataDto
+                {
+                    Categories = categories,
+                    Brands = brands,
+                    Product = product ,
+                    SpecificationsValues = specificationsValues
+                });
+            }
+            return RedirectToAction("Index", "Auth");
         }
         [HttpGet]
         public IActionResult Get([FromServices] IGetProductsQuery query, [FromQuery] SearchProductsDto dto)
@@ -66,22 +78,32 @@ namespace TestStore.Web.Controllers
         [HttpPost]
         public IActionResult Store([FromForm] ProductWithImageDto dto, [FromServices] ICreateProductCommand command)
         {
+            if (this._service.Authenticated)
+            {
                 string fileName = this.UploadImageToServer(dto.Image);
                 dto.ImageName = fileName;
                 this._handler.HandleCommand(command, dto);
                 return StatusCode(201);
+            }
+            return RedirectToAction("Index", "Auth");
         }
 
         [HttpDelete]
         public IActionResult Delete(int id, [FromServices] IDeleteProductCommand command)
         {
+            if (this._service.Authenticated)
+            {
                 this._handler.HandleCommand(command, id);
                 return NoContent();
+            }
+            return RedirectToAction("Index", "Auth");
         }
 
         [HttpPatch]
         public IActionResult Update([FromServices] IUpdateProductCommand command, [FromForm] ProductWithImageDto dto)
         {
+            if (this._service.Authenticated)
+            {
                 if(dto.Image != null)
                 {
                     string fileName = this.UploadImageToServer(dto.Image);
@@ -89,6 +111,8 @@ namespace TestStore.Web.Controllers
                 }
                 this._handler.HandleCommand(command, dto);
                 return StatusCode(204);
+            }
+            return RedirectToAction("Index", "Auth");
         }
         private string UploadImageToServer(IFormFile ImageToUlooad)
         {
@@ -140,16 +164,24 @@ namespace TestStore.Web.Controllers
         [HttpDelete]
         public IActionResult RemoveSpecification([FromQuery] RemoveSpecificationDto dto, [FromServices] IDeleteSpecificationValueFromProductsCollectionCommand command, [FromServices] IGetProductsSpecificationsQuery query)
         {
-            this._handler.HandleCommand(command, dto);
+            if (this._service.Authenticated)
+            {
+                this._handler.HandleCommand(command, dto);
 
-            return Ok(this._handler.HandleQuery(query, dto.ProductId));
+                return Ok(this._handler.HandleQuery(query, dto.ProductId));
+            }
+            return RedirectToAction("Index", "Auth");
         }
 
         [HttpPost]
         public IActionResult AddSpecification([FromForm] ProductsSpecificationDto dto, [FromServices] IUpdateProductSpecfiicationCommand command, [FromServices] IGetProductsSpecificationsQuery query)
         {
-            this._handler.HandleCommand(command, dto);
-            return Ok(this._handler.HandleQuery(query, dto.ProductId));
+            if (this._service.Authenticated)
+            {
+                this._handler.HandleCommand(command, dto);
+                return Ok(this._handler.HandleQuery(query, dto.ProductId));
+            }
+            return RedirectToAction("Index", "Auth");
         }
     }
 }

@@ -18,7 +18,6 @@ namespace TestStore.Web.ViewComponents
         public IViewComponentResult Invoke()
         {
 
-            this._service.RetrieveCookieFromRequest();
             var data = new NavLinksUserDataDto();
             if (this._service.Authenticated)
             {

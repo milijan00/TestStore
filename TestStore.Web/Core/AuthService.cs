@@ -13,7 +13,7 @@ namespace TestStore.Web.Core
             _tokenHandler = tokenHandler;
             
         }
-        public void RetrieveCookieFromRequest()
+        private void RetrieveCookieFromRequest()
         {
             this._cookie = this._accessor.HttpContext.Request.Headers.Cookie.FirstOrDefault(x => x.StartsWith("access="));
             if (this._cookie != null)
@@ -25,6 +25,7 @@ namespace TestStore.Web.Core
         {
             get
             {
+                this.RetrieveCookieFromRequest();
                 if (this._cookie == null || !this.JWTIsValid) return false;
                 return true;
             }

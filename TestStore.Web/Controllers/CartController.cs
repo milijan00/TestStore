@@ -11,14 +11,15 @@ namespace TestStore.Web.Controllers
     public class CartController : Controller
     {
         private UsecaseHandler _handler;
-        public CartController(UsecaseHandler handler)
+        private AuthService _service;
+        public CartController(UsecaseHandler handler, AuthService service)
         {
             _handler = handler;
+            this._service = service;
         }
-        public IActionResult Index([FromServices] AuthService service)
+        public IActionResult Index()
         {
-            service.RetrieveCookieFromRequest();
-            if (service.Authenticated)
+            if (this._service.Authenticated)
             {
                 return View();
             }
@@ -28,15 +29,23 @@ namespace TestStore.Web.Controllers
         [HttpDelete]
         public IActionResult Delete(int id, [FromServices] IDeleteCartCommand command)
         {
-            this._handler.HandleCommand(command, id);
-            return NoContent();
+            if (this._service.Authenticated)
+            {
+                this._handler.HandleCommand(command, id);
+                return NoContent();
+            }
+            return RedirectToAction("Index", "Auth");
         }
 
         [HttpPost]
         public IActionResult Store([FromForm] CartDto dto, [FromServices] ICreateCartCommand command)
         {
-            this._handler.HandleCommand(command, dto);
-            return StatusCode(201);
+            if (this._service.Authenticated)
+            {
+                this._handler.HandleCommand(command, dto);
+                return StatusCode(201);
+            }
+            return RedirectToAction("Index", "Auth");
         }
     }
 }
